@@ -12,6 +12,7 @@ def load_words():
     return words, file_path
 
 def filter_words_by_length(words, length):
+    # Filter words based on length for difficulty settings ---> change this function to adjust difficulty by repeating letters, special chars, etc.
     difficulty_list = []
     if length > 6:
         for word in words:
@@ -42,11 +43,6 @@ def delete_word(words, word_to_delete, file_path):
 
 #test
 if __name__ == "__main__":
-
-    Fore.red
-    Back.red
-    Style.reset
-    Fore.rgb('100%', '50%', '30%')
     words, file_path = load_words()
 
     print(f"{Fore.white}{Back.green}Filtrage :{Style.reset}", filter_words_by_length(words, 5))
