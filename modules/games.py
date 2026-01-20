@@ -1,5 +1,6 @@
 #----------Import----------
 import random
+<<<<<<< HEAD
 #from enter.py import letter_press
 
 #----------Function----------
@@ -16,6 +17,30 @@ def letter(A, guess, word, life, letter, difficulty):
         letter.append(A)
 
     return guess, life, letter
+=======
+try:
+    from modules.enter import letter_press
+except ImportError:
+    from enter import letter_press
+
+#----------Function----------
+def letter(A, guess, word, life, guessed_letters, difficulty):
+    if A in guessed_letters:
+        if difficulty == 0 and A in guess:
+            return guess, life, guessed_letters
+        life -= 1
+        return guess, life, guessed_letters
+
+    guessed_letters.append(A)
+    if A in word:
+        for i in range(len(word)):
+            if A == word[i]:
+                guess[i] = A
+    else:
+        life -= 1
+
+    return guess, life, guessed_letters
+>>>>>>> enter
             
 
 def games_difficulty(difficulty):
@@ -31,9 +56,22 @@ def games_difficulty(difficulty):
 
 def games(difficulty, word):
     life = games_difficulty(difficulty)
+<<<<<<< HEAD
     letter = []
     guess = ["_"] * len(word)
     print(life, letter, guess)
     pass
 
 games(0, "caca")
+=======
+    guessed_letters = []
+    guess = ["_"] * len(word)
+    while True:
+        a = letter_press()
+        guess, life, guessed_letters = letter(a, guess, word, life, guessed_letters, difficulty)
+        print(life, guessed_letters, guess)
+    
+
+if __name__ == "__main__":
+    games(1, "caca")
+>>>>>>> enter
