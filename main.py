@@ -1,8 +1,8 @@
 from modules.games import games
 
 def main():
-    # Example usage
-    games(0, "caca")
+    while True: 
+        games(0, "Vicodine")
 
 if __name__ == "__main__":
     main()

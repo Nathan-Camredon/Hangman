@@ -26,7 +26,6 @@ def letter(A, guess, word, life, guessed_letters, difficulty):
 
     return guess, life, guessed_letters
             
-
 def games_difficulty(difficulty):
     """
     Set the difficulty
@@ -69,7 +68,7 @@ def games(difficulty, word):
         if win(guess, word, life) == False:
             print("You lose!")
             break
-    
+    print("test")
 
 if __name__ == "__main__":
     games(0, "caca")
