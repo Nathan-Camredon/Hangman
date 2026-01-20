@@ -1,8 +1,10 @@
 from modules.games import games
 from modules.games import games_difficulty
+
 def main():
     while True: 
         difficulty = 0
+        #games_pages()
         games_difficulty(difficulty)
         games(difficulty, "Vicodine")
         
