@@ -1,4 +1,8 @@
-def main():
-    pass
+from modules.games import games
 
-main()
+def main():
+    # Example usage
+    games(0, "caca")
+
+if __name__ == "__main__":
+    main()
