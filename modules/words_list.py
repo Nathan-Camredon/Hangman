@@ -1,5 +1,5 @@
 import os
-from colored import Fore, Back, Style
+#from colored import Fore, Back, Style
 
 def load_words():
     base_dir = os.path.dirname(os.path.abspath(__file__)) 

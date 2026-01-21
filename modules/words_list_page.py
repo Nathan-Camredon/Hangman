@@ -3,7 +3,7 @@ from words_list import load_words, filter_words_by_length, add_word, delete_word
 
 def word_list():
     window = screen
-    running = True
+    #running = True
 
     # Charger les mots depuis words.txt
     try:

@@ -1,6 +1,6 @@
 import pygame
 import time
-
+from words_list_page import word_list
 
 # Init 
 pygame.init()
@@ -43,8 +43,8 @@ difficulty_color = [
 
 
 # Arrow Difficulty
-arrow_left_png = pygame.image.load("modules/graphic/assets/arrow_left.png").convert_alpha()
-arrow_right_png = pygame.image.load("modules/graphic/assets/arrow_right.png").convert_alpha()
+arrow_left_png = pygame.image.load("graphic/assets/arrow_left.png").convert_alpha()
+arrow_right_png = pygame.image.load("graphic/assets/arrow_right.png").convert_alpha()
 
 arrow_left_png = pygame.transform.scale(arrow_left_png, (60, 60))
 arrow_right_png = pygame.transform.scale(arrow_right_png, (60, 60))
@@ -154,13 +154,19 @@ def menu():
         
         # Difficulty rect
         difficulty_button = draw_button((center_x - 150), (center_y + 110), 300, 70, difficulty_color[difficulty_index], window)
-        word_button = draw_button((center_x - 150), (center_y + 220), 300, 70, GREEN, window)
-
 
         # Difficulty swap
         font = pygame.font.SysFont(None, 40)
         text = font.render(difficulties[difficulty_index], True, BLACK)
         window.blit(text, (center_x - 50, center_y + 130))
+
+
+        # Word
+        word_button = draw_button((center_x - 150), (center_y + 220), 300, 70, GREEN, window)
+        mouse_pos = pygame.mouse.get_pos()
+        word_color = GREEN if word_button.collidepoint(mouse_pos) else DARK_GREEN
+        word_button = draw_button((center_x - 150), (center_y + 220), 300, 70, word_color, window)
+        draw_text("MOTS", 36, BLACK, word_button.center, window)
 
         # Arrow blit
         window.blit(arrow_left_png, left_arrow_rect)
