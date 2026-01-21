@@ -15,11 +15,15 @@ center_x = WIDHT // 2
 center_y = HEIGHT // 2
 
 # Color
+WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (100, 100, 100)
 BLUE = (50, 100, 200)
-RED = (180, 50, 50)
+LIGHT_BLUE = (0, 123, 255, 255)
+RED = (180, 30, 30)
+LIGHT_RED = (255, 0, 46, 255)
 GREEN = (0, 255, 78)
+DARK_GREEN = (0, 185, 78, 255)
 YELLOW = (255, 255, 0, 255)
 
 
@@ -67,7 +71,7 @@ def draw_text_center(text, size, color, rect, window, bold=False):
 # Function window size
 def window_size(size_x, size_y, name):
     window = pygame.display.set_mode((size_x, size_y))
-    window.fill(BLACK)
+    window.fill(GRAY)
     pygame.display.set_caption(name)
     return window
 
@@ -92,7 +96,7 @@ def menu():
     right_arrow_rect.topleft = (center_x + 190, center_y + 120)
 
     while running:
-        window.fill(BLACK)
+        window.fill(GRAY)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 time.sleep(0.4)
@@ -122,11 +126,14 @@ def menu():
                     difficulty_index += 1
                     if difficulty_index >= len(difficulties):
                         difficulty_index = 0
-                        # Gestion d'erreur ( a effaer repere flo)
+                        # Gestion d'erreur ( a effacer repère flo)
 
                 # Exit
                 if exit_button.collidepoint(event.pos):
+                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
                     running = False
+                else:
+                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                     # ajouter stop music
 
 
@@ -134,22 +141,43 @@ def menu():
 
 
 
-        # Buttons Play / Diffuculty / Word / Exit
+
+        # -- Buttons Play / Diffuculty / Word / Exit --
+
+        # Play
         play_button = draw_button((center_x - 150), center_y, 300, 70, BLUE, window)
+
+        mouse_pos = pygame.mouse.get_pos()
+        play_color = LIGHT_BLUE if play_button.collidepoint(mouse_pos) else BLUE
+        exit_button = draw_button((center_x - 150), center_y, 300, 70, play_color, window)
+        draw_text("JOUER", 36, BLACK, play_button.center, window)
+        
+        # Difficulty rect
         difficulty_button = draw_button((center_x - 150), (center_y + 110), 300, 70, difficulty_color[difficulty_index], window)
         word_button = draw_button((center_x - 150), (center_y + 220), 300, 70, GREEN, window)
-        exit_button = draw_button((center_x + 650 ), 10, 300, 70, RED, window)
-        
-        # Score Rectangle
-        score = draw_button(40, 40, 300, 200, YELLOW, window)
 
-        window.blit(arrow_left_png, left_arrow_rect)
-        window.blit(arrow_right_png, right_arrow_rect)
 
+        # Difficulty swap
         font = pygame.font.SysFont(None, 40)
         text = font.render(difficulties[difficulty_index], True, BLACK)
         window.blit(text, (center_x - 50, center_y + 130))
 
+        # Arrow blit
+        window.blit(arrow_left_png, left_arrow_rect)
+        window.blit(arrow_right_png, right_arrow_rect)
+
+        # Quit
+        exit_button = draw_button(center_x + 650, 10, 300, 70, RED, window)
+
+        mouse_pos = pygame.mouse.get_pos()
+        exit_color = LIGHT_RED if exit_button.collidepoint(mouse_pos) else RED
+        exit_button = draw_button(center_x + 650, 10, 300, 70, exit_color, window)
+        draw_text("QUITTER", 36, BLACK, exit_button.center, window)
+
+        
+        # Score Rectangle
+        score = draw_button(40, 40, 300, 200, YELLOW, window)
+        draw_text("VOTRE SCORE : 0",36,BLACK,(score.centerx, score.top + 25),window)
 
         clock.tick(60)
         pygame.display.update()
