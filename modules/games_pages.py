@@ -8,7 +8,8 @@ clock = pygame.time.Clock()
 
 
 # Window Size
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+info = pygame.display.Info()
+screen = pygame.display.set_mode((info.current_w, info.current_h), pygame.NOFRAME)
 WIDHT, HEIGHT = screen.get_size()
 
 center_x = WIDHT // 2
@@ -39,11 +40,12 @@ def games_pages(guess):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-            text = font.render(f"{guess}", True, BLACK)
+        
+        for index, letter in enumerate(guess):
+            text = font.render(f"{letter}", True, BLACK)
             # Position text: centered horizontally, spaced vertically
-            text_rect = text.get_rect(center=(center_x, center_y - 100 + index * 50))
+            text_rect = text.get_rect(center=(center_x - (len(guess) * 50) // 2 + index * 50, center_y))
             window.blit(text, text_rect)
 
         pygame.display.flip()
         clock.tick(60)
-

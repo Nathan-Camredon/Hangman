@@ -61,14 +61,13 @@ def games(difficulty, word):
     while True:
         a = letter_press()
         guess, life, guessed_letters = letter(a, guess, word, life, guessed_letters, difficulty)
-        print(life, guessed_letters, guess)
         if win(guess, word, life) == True:
             print("You win!")
             break
         if win(guess, word, life) == False:
             print("You lose!")
             break
-    print("test")
+    return guess
 
 if __name__ == "__main__":
-    games(0, "caca")
+    games(0, "test")
