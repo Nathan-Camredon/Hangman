@@ -43,8 +43,8 @@ difficulty_color = [
 
 
 # Arrow Difficulty
-arrow_left_png = pygame.image.load("assets/arrow_left.png").convert_alpha()
-arrow_right_png = pygame.image.load("assets/arrow_right.png").convert_alpha()
+arrow_left_png = pygame.image.load("modules/graphic/assets/arrow_left.png").convert_alpha()
+arrow_right_png = pygame.image.load("modules/graphic/assets/arrow_right.png").convert_alpha()
 
 arrow_left_png = pygame.transform.scale(arrow_left_png, (60, 60))
 arrow_right_png = pygame.transform.scale(arrow_right_png, (60, 60))
