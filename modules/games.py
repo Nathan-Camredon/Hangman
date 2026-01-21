@@ -1,15 +1,14 @@
 #----------Import----------
 import random
-try:
-    from modules.enter import letter_press
-except ImportError:
-    from enter import letter_press
+import pygame
+from modules.games_pages import display_game
 
 #----------Function----------
 def letter(A, guess, word, life, guessed_letters, difficulty):
     """
     Verify if the letter is in the word
     """
+    # Check if letter already guessed
     if A in guessed_letters:
         if difficulty == 0:
             return guess, life, guessed_letters
@@ -17,6 +16,7 @@ def letter(A, guess, word, life, guessed_letters, difficulty):
         return guess, life, guessed_letters
 
     guessed_letters.append(A)
+    # Check if letter is in the word
     if A in word:
         for i in range(len(word)):
             if A == word[i]:
@@ -28,9 +28,9 @@ def letter(A, guess, word, life, guessed_letters, difficulty):
             
 def games_difficulty(difficulty):
     """
-    Set the difficulty
+    Set the difficulty (lives based on level)
     """
-    guess = []
+    guess = [] # Unused local var, can be removed, but keeping structure for now
     if difficulty == 0:
         life = 7
     if difficulty == 1:
@@ -43,9 +43,9 @@ def games_difficulty(difficulty):
 
 def win(guess, word, life):
     """
-    Verify if the player win
+    Verify if the player won or lost
     """
-    if "".join(guess) == word:  #"".join(guess) -> guess = ["g", "u", "s", "s"] 
+    if "".join(guess) == word: 
         return True
     if life == 0:
         return False
@@ -53,22 +53,49 @@ def win(guess, word, life):
 
 def games(difficulty, word):
     """
-    Start the game
+    Start the game with Pygame loop
     """
     life = games_difficulty(difficulty)
     guessed_letters = []
     guess = ["_"] * len(word)
-    while True:
-        a = letter_press()
-        guess, life, guessed_letters = letter(a, guess, word, life, guessed_letters, difficulty)
-        print(life, guessed_letters, guess)
-        if win(guess, word, life) == True:
-            print("You win!")
-            break
-        if win(guess, word, life) == False:
-            print("You lose!")
-            break
-    print("test")
+    
+    running = True
+    while running:
+        # Display the game state
+        display_game(guess)
+        
+        # Event Handling
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                return # Exit function
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+                    pygame.quit()
+                    return
+
+                # Handle letter input
+                if event.unicode.isalpha() and len(event.unicode) == 1:
+                    letter_input = event.unicode.lower()
+                    guess, life, guessed_letters = letter(letter_input, guess, word, life, guessed_letters, difficulty)
+                    
+                    # Check Win/Lose condition
+                    result = win(guess, word, life)
+                    if result is True:
+                        print("You win!")
+                        #"Win" screen or wait before closing
+                        running = False
+                    elif result is False:
+                        print("You lose!")
+                        #"Lose" screen
+                        running = False
+
+    return guess
 
 if __name__ == "__main__":
-    games(0, "caca")
+    # Ensure games_pages init is called if running standalone (usually handled by main)
+    # But games_pages has init at top level, so it should be fine.
+    games(0, "test")
