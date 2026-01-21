@@ -26,28 +26,26 @@ YELLOW = (255, 255, 0, 255)
 
 
 
-def games_pages(guess):
+# Function to display the game state
+def display_game(guess):
+    """
+    Render the game state to the screen.
+    Includes the guessed word.
+    """
     window = screen
-    # Font setup
+    # Use global font setup if possible, or init here. 
+    # Better to init font once outside, but keeping local for now as per minimal change strategy unless performance hit.
     font = pygame.font.SysFont("Arial", 40)
 
-    running = True
-    while running:
-        window.fill(WHITE)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    running = False
-        
-        for index, letter in enumerate(guess):
-            text = font.render(f"{letter}", True, BLACK)
-            # Position text: centered horizontally, spaced vertically
-            text_rect = text.get_rect(center=(center_x - (len(guess) * 50) // 2 + index * 50, center_y))
-            window.blit(text, text_rect)
+    window.fill(WHITE)
+    
+    # Render the guessed word
+    for index, letter in enumerate(guess):
+        text = font.render(f"{letter}", True, BLACK)
+        # Position text: centered horizontally, spaced vertically
+        # center_x - (half total width) + (offset for current letter)
+        text_rect = text.get_rect(center=(center_x - (len(guess) * 50) // 2 + index * 50, center_y))
+        window.blit(text, text_rect)
 
-        pygame.display.flip()
-        clock.tick(60)
-
-games_pages("_______")
+    pygame.display.flip()
+    clock.tick(60)
