@@ -49,3 +49,5 @@ def games_pages(guess):
 
         pygame.display.flip()
         clock.tick(60)
+
+games_pages("_______")

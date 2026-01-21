@@ -6,7 +6,6 @@ def main():
         difficulty = 0
         word = "test"
         games_difficulty(difficulty)
-        guess = games(difficulty, word)
-        games_pages(guess)
+        games(difficulty, word)
 if __name__ == "__main__":
     main()
