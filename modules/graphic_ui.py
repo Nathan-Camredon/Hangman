@@ -1,13 +1,11 @@
 import pygame
 import time
-from modules.words_list_page import word_list
+from modules import words_list_page
 from modules.games import games
 
 # Init 
 pygame.init()
 clock = pygame.time.Clock()
-
-
 # Window Size
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 WIDHT, HEIGHT = screen.get_size()
@@ -112,7 +110,7 @@ def menu():
 
                 # Word Button
                 elif word_button.collidepoint(event.pos): # En attente de la vrai fonction
-                    word_list()
+                    words_list_page.word_list(screen, clock)
                     # ajouter stop music
 
                 # Left Arrow
