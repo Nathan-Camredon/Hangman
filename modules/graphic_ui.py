@@ -1,6 +1,7 @@
 import pygame
 import time
-from words_list_page import word_list
+from modules.words_list_page import word_list
+from modules.games import games
 
 
 
@@ -68,8 +69,8 @@ background_button_exit = pygame.transform.scale(background_button_exit, (BUTTON_
 background_button_hover = pygame.transform.scale(background_button_hover, (BUTTON_WIDTH,BUTTON_HEIGHT))
 
 # Arrow Difficulty
-arrow_left_png = pygame.image.load("graphic/assets/arrow_left.png").convert_alpha()
-arrow_right_png = pygame.image.load("graphic/assets/arrow_right.png").convert_alpha()
+arrow_left_png = pygame.image.load("modules/graphic/assets/arrow_left.png").convert_alpha()
+arrow_right_png = pygame.image.load("modules/graphic/assets/arrow_right.png").convert_alpha()
 
 arrow_left_png = pygame.transform.scale(arrow_left_png, (60, 60))
 arrow_right_png = pygame.transform.scale(arrow_right_png, (60, 60))
@@ -141,7 +142,7 @@ def menu():
 
                 # Play Button
                 if play_button.collidepoint(event.pos):
-                    game()
+                    games(difficulty_index, "vicodine")
                     # ajouter stop music
 
                 # Word Button
