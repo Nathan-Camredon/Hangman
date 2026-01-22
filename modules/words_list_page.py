@@ -1,6 +1,5 @@
 import pygame
-from words_list import load_words, filter_words_by_length, add_word, delete_word
-from modules.graphic_ui import screen, clock, BLACK, RED 
+from modules.words_list import load_words, filter_words_by_length, add_word, delete_word
 
 def word_list():
     window = screen
