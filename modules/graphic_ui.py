@@ -1,7 +1,9 @@
 import pygame
 import time
+import sys
 from modules.words_list_page import word_list
 from modules.games import games
+
 
 
 
@@ -49,16 +51,16 @@ difficulty_color = [
 ]
 
 # Background
-background_main = pygame.image.load("graphic/assets/background_main.png").convert()
+background_main = pygame.image.load("modules/graphic/assets/background_main.png").convert()
 background_main = pygame.transform.scale(background_main,(WIDHT, HEIGHT))
-background_score = pygame.image.load("graphic/assets/background_score.png").convert_alpha()
-background_button = pygame.image.load("graphic/assets/background_button.png").convert_alpha()
+background_score = pygame.image.load("modules/graphic/assets/background_score.png").convert_alpha()
+background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
 
 
 # --- BUTTON IMAGES ---
-background_button = pygame.image.load("graphic/assets/background_button.png").convert_alpha()
-background_button_exit = pygame.image.load("graphic/assets/background_button_exit.png").convert_alpha()
-background_button_hover = pygame.image.load("graphic/assets/background_button_hover.png").convert_alpha()
+background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
+background_button_exit = pygame.image.load("modules/graphic/assets/background_button_exit.png").convert_alpha()
+background_button_hover = pygame.image.load("modules/graphic/assets/background_button_hover.png").convert_alpha()
 
 # Button size
 BUTTON_WIDTH = 300
@@ -165,12 +167,9 @@ def menu():
                         # Gestion d'erreur ( a effacer repère flo)
 
                 # Exit
-                if exit_button.collidepoint(event.pos):
+                elif exit_button.collidepoint(event.pos):
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-                    running = False
-                else:
-                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-                    # ajouter stop music
+                    return
 
 
 
@@ -222,9 +221,14 @@ def menu():
 
 
 
+
+
 # Fonction en attente
 def word_list():
     pass
 def game():
     pass
 menu()
+pygame.quit()
+sys.exit()
+
