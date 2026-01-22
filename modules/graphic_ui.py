@@ -2,10 +2,16 @@ import pygame
 import time
 from words_list_page import word_list
 
+
+
+
 # Init 
 pygame.init()
 clock = pygame.time.Clock()
 
+#---------------
+# CONSTANTS
+#---------------
 
 # Window Size
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -41,6 +47,25 @@ difficulty_color = [
     (150, 0, 200),   # god_like = red
 ]
 
+# Background
+background_main = pygame.image.load("graphic/assets/background_main.png").convert()
+background_main = pygame.transform.scale(background_main,(WIDHT, HEIGHT))
+background_score = pygame.image.load("graphic/assets/background_score.png").convert_alpha()
+background_button = pygame.image.load("graphic/assets/background_button.png").convert_alpha()
+
+
+# --- BUTTON IMAGES ---
+background_button = pygame.image.load("graphic/assets/background_button.png").convert_alpha()
+background_button_exit = pygame.image.load("graphic/assets/background_button_exit.png").convert_alpha()
+background_button_hover = pygame.image.load("graphic/assets/background_button_hover.png").convert_alpha()
+
+# Button size
+BUTTON_WIDTH = 300
+BUTTON_HEIGHT = 70
+
+background_button = pygame.transform.scale(background_button, (BUTTON_WIDTH, BUTTON_HEIGHT))
+background_button_exit = pygame.transform.scale(background_button_exit, (BUTTON_WIDTH, BUTTON_HEIGHT))
+background_button_hover = pygame.transform.scale(background_button_hover, (BUTTON_WIDTH,BUTTON_HEIGHT))
 
 # Arrow Difficulty
 arrow_left_png = pygame.image.load("graphic/assets/arrow_left.png").convert_alpha()
@@ -49,10 +74,24 @@ arrow_right_png = pygame.image.load("graphic/assets/arrow_right.png").convert_al
 arrow_left_png = pygame.transform.scale(arrow_left_png, (60, 60))
 arrow_right_png = pygame.transform.scale(arrow_right_png, (60, 60))
 
+
+#--------------------
+#   FUNCTIONS
+#--------------------
+
+
+
+
 # Function Buttons Rect
 def draw_button(x, y, width, height, color, window):
     rect = pygame.Rect(x, y, width, height)
     pygame.draw.rect(window, color, rect)
+    return rect
+
+def draw_button_pic(x, y, width, height, image, window):
+    rect = pygame.Rect(x, y, width, height)
+    image = pygame.transform.scale(image, (width, height))
+    window.blit(image, rect)
     return rect
 
 # Text draw
@@ -62,16 +101,9 @@ def draw_text(text, size, color, center, window):
     text_rect = text_surface.get_rect(center=center)
     window.blit(text_surface, text_rect)
 
-def draw_text_center(text, size, color, rect, window, bold=False):
-    font = pygame.font.SysFont(None, size, bold=bold)
-    text_surface = font.render(text, True, color)
-    text_rect = text_surface.get_rect(center=rect.center)
-    window.blit(text_surface, text_rect)
-
 # Function window size
 def window_size(size_x, size_y, name):
     window = pygame.display.set_mode((size_x, size_y))
-    window.fill(GRAY)
     pygame.display.set_caption(name)
     return window
 
@@ -86,17 +118,20 @@ def menu():
     window = screen
     running = True
     difficulty_index = 0
-
+    window.blit(background_main, (0, 0))
     draw_text(difficulties[difficulty_index],40,BLACK,(center_x, center_y + 145),window)
 
     # Arrow rect
     left_arrow_rect = arrow_left_png.get_rect()
     right_arrow_rect = arrow_right_png.get_rect()
     left_arrow_rect.topleft = (center_x - 250, center_y + 120)
-    right_arrow_rect.topleft = (center_x + 190, center_y + 120)
+    right_arrow_rect.topleft = (center_x + 90, center_y + 120)
+
+    # --- PLAY BUTTON RECT ---
+    
 
     while running:
-        window.fill(GRAY)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 time.sleep(0.4)
@@ -119,7 +154,7 @@ def menu():
                     difficulty_index -= 1
                     if difficulty_index < 0:
                         difficulty_index = len(difficulties) - 1 # Gestion d'erreur ( a effaer repere flo)
-                
+
 
                 # Right Arrow
                 elif right_arrow_rect.collidepoint(event.pos):
@@ -140,58 +175,55 @@ def menu():
 
 
 
-
-
         # -- Buttons Play / Diffuculty / Word / Exit --
 
         # Play
-        play_button = draw_button((center_x - 150), center_y, 300, 70, BLUE, window)
-
+        play_button = pygame.Rect(center_x - 200,center_y,BUTTON_WIDTH,BUTTON_HEIGHT)
         mouse_pos = pygame.mouse.get_pos()
-        play_color = LIGHT_BLUE if play_button.collidepoint(mouse_pos) else BLUE
-        exit_button = draw_button((center_x - 150), center_y, 300, 70, play_color, window)
-        draw_text("JOUER", 36, BLACK, play_button.center, window)
+        play_image = (background_button_hover if play_button.collidepoint(mouse_pos)else background_button)
+        window.blit(play_image, play_button)
+        draw_text("JOUER", 36, WHITE, play_button.center, window) 
         
         # Difficulty rect
-        difficulty_button = draw_button((center_x - 150), (center_y + 110), 300, 70, difficulty_color[difficulty_index], window)
+        difficulty_button = draw_button((center_x - 200), (center_y + 110), 300, 70, difficulty_color[difficulty_index], window)
 
         # Difficulty swap
         font = pygame.font.SysFont(None, 40)
         text = font.render(difficulties[difficulty_index], True, BLACK)
-        window.blit(text, (center_x - 50, center_y + 130))
+        window.blit(text, (center_x - 100, center_y + 130))
 
 
         # Word
-        word_button = draw_button((center_x - 150), (center_y + 220), 300, 70, GREEN, window)
+        word_button = pygame.Rect((center_x - 200), (center_y + 220),BUTTON_WIDTH, BUTTON_HEIGHT)
         mouse_pos = pygame.mouse.get_pos()
-        word_color = GREEN if word_button.collidepoint(mouse_pos) else DARK_GREEN
-        word_button = draw_button((center_x - 150), (center_y + 220), 300, 70, word_color, window)
-        draw_text("MOTS", 36, BLACK, word_button.center, window)
+        word_img = (background_button_hover if word_button.collidepoint(mouse_pos) else background_button)
+        window.blit(word_img, word_button)
+        draw_text("MOTS", 36, WHITE, word_button.center, window)
 
         # Arrow blit
         window.blit(arrow_left_png, left_arrow_rect)
         window.blit(arrow_right_png, right_arrow_rect)
 
         # Quit
-        exit_button = draw_button(center_x + 650, 10, 300, 70, RED, window)
-
+        exit_button = pygame.Rect((center_x - 200), (center_y + 330),BUTTON_WIDTH, BUTTON_HEIGHT)
         mouse_pos = pygame.mouse.get_pos()
-        exit_color = LIGHT_RED if exit_button.collidepoint(mouse_pos) else RED
-        exit_button = draw_button(center_x + 650, 10, 300, 70, exit_color, window)
-        draw_text("QUITTER", 36, BLACK, exit_button.center, window)
+        exit_img = (background_button_hover if exit_button.collidepoint(mouse_pos) else background_button_exit)
+        window.blit(exit_img, exit_button)
+        draw_text("QUITTER", 36, RED, exit_button.center, window)
 
         
         # Score Rectangle
-        score = draw_button(40, 40, 300, 200, YELLOW, window)
-        draw_text("VOTRE SCORE : 0",36,BLACK,(score.centerx, score.top + 25),window)
+        score = draw_button_pic(40, 40, 300, 100, background_score, window) 
+        draw_text("VOTRE SCORE : 0", 28, WHITE, score.center, window)
 
         clock.tick(60)
         pygame.display.update()
+
+
 
 # Fonction en attente
 def word_list():
     pass
 def game():
     pass
-
 menu()
