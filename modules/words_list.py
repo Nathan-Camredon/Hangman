@@ -27,7 +27,7 @@ def filter_words_by_length(words, length):
 def add_word(words, new_word, file_path):
     if new_word not in words:
         with open(file_path, 'a', encoding='utf-8') as file:
-            file.write(f"{new_word.lower()}\n")
+            file.write(f"{new_word.lower()}\n") 
         words.append(new_word.lower())
     return words
 
