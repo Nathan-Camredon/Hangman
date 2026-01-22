@@ -1,5 +1,4 @@
 import pygame
-import time
 from modules.game_logic import games_difficulty
 
 
@@ -19,11 +18,7 @@ center_y = HEIGHT // 2
 # Constant
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GRAY = (100, 100, 100)
-BLUE = (50, 100, 200)
 RED = (180, 50, 50)
-GREEN = (0, 255, 78)
-YELLOW = (255, 255, 0, 255)
 
 
 

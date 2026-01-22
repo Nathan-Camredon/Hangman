@@ -1,5 +1,4 @@
 #----------Import----------
-import random
 import pygame
 from modules.games_pages import display_game
 from modules.game_logic import letter, games_difficulty, win
@@ -39,18 +38,12 @@ def games(difficulty, word):
                     # Check Win/Lose condition
                     result = win(guess, word, life)
                     if result is True:
-                        print("You win!")
                         display_game(guess, life, guessed_letters, difficulty)
                         time.sleep(2)
                         running = False
                     elif result is False:
-                        print("You lose!")
                         display_game(guess, life, guessed_letters, difficulty)
                         time.sleep(2)
                         running = False
 
     return guess
-
-if __name__ == "__main__":
-
-    games(0, "test")
