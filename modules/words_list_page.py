@@ -1,10 +1,11 @@
 import pygame
 from words_list import load_words, filter_words_by_length, add_word, delete_word
+from modules.graphic_ui import screen, clock, BLACK, RED 
 
 def word_list():
     window = screen
-    #running = True
-
+    running = True
+   
     # Charger les mots depuis words.txt
     try:
         with open("words.txt", "r", encoding="utf-8") as f:

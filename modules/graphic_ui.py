@@ -1,6 +1,6 @@
 import pygame
 import time
-from words_list_page import word_list
+from modules.words_list_page import word_list
 
 # Init 
 pygame.init()

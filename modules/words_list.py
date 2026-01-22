@@ -1,5 +1,5 @@
 import os
-#from colored import Fore, Back, Style
+from colored import Fore, Back, Style
 
 def load_words():
     base_dir = os.path.dirname(os.path.abspath(__file__)) 
@@ -43,9 +43,6 @@ def delete_word(words, word_to_delete, file_path):
 #test
 if __name__ == "__main__":
 
-    Fore.red
-    Back.red
-    Style.reset
     Fore.rgb('100%', '50%', '30%')
     words, file_path = load_words()
 

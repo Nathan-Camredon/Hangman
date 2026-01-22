@@ -6,6 +6,5 @@ def main():
         difficulty = 0
         word = "vicodine"
         games_difficulty(difficulty)
-        games(difficulty, word)
 if __name__ == "__main__":
     main()
