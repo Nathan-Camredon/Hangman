@@ -105,7 +105,7 @@ def menu():
 
                 # Play Button
                 if play_button.collidepoint(event.pos):
-                    games(1, "vicodine")
+                    games(difficulty_index, "vicodine")
                     # ajouter stop music
 
                 # Word Button

@@ -2,6 +2,7 @@
 import random
 import pygame
 from modules.games_pages import display_game
+import time
 
 #----------Function----------
 def letter(A, guess, word, life, guessed_letters, difficulty):
@@ -86,11 +87,13 @@ def games(difficulty, word):
                     result = win(guess, word, life)
                     if result is True:
                         print("You win!")
-                        #"Win" screen or wait before closing
+                        display_game(guess)
+                        time.sleep(2)
                         running = False
                     elif result is False:
                         print("You lose!")
-                        #"Lose" screen
+                        display_game(guess)
+                        time.sleep(2)
                         running = False
 
     return guess
