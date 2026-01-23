@@ -12,7 +12,7 @@ def load_words():
     with open(file_path, 'r', encoding='utf-8') as file:
         for line in file:
             words.append(line.strip().lower())
-    return words, file_path
+    return words
 
 def filter_words_by_length(words, length):
     difficulty_list = []
@@ -63,7 +63,7 @@ def words_selector(difficulty):
              Returns a random word from the full list if no match is found (fallback).
              Returns None if the word list is empty.
     """
-    words, file_path = load_words()
+    words= load_words()
     
     # Mapping difficulty index to word length
     # 0 -> 5, 1 -> 6, 2 -> 7, 3 -> 8

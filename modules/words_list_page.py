@@ -1,12 +1,9 @@
 # Fichier wods_list_page.py
-
 import pygame
 from modules.words_list import load_words
 from modules.delete_word_page import draw_delete_word_page, handle_delete_word_event
 from modules.add_word_page import draw_add_word_page, handle_add_word_event
   
-# Init 
-pygame.init()
 clock = pygame.time.Clock()
 
 #window size function
@@ -27,6 +24,7 @@ center_y = HEIGHT // 2
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (180, 50, 50)
+BLUE = (50, 100, 200)
 
 # Scroll
 words = load_words()
@@ -67,27 +65,52 @@ def draw_words(screen, words, selected_word, scroll_offset, font):
             screen.blit(text, (x, y))
             y += line_spacing
 
+def draw_button_pic(x, y, width, height, image, window):
+    rect = pygame.Rect(x, y, width, height)
+    image = pygame.transform.scale(image, (width, height))
+    window.blit(image, rect)
+    return rect
+
+# Text draw
+def draw_text(text, size, color, center, window):
+    font = pygame.font.SysFont(None, size)
+    text_surface = font.render(text, True, color)
+    text_rect = text_surface.get_rect(center=center)
+    window.blit(text_surface, text_rect)
 
 def draw_buttons():
     # --- BUTTON IMAGES ---
     background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
-    background_button_exit = pygame.image.load("modules/graphic/assets/background_button_exit.png").convert_alpha()
     background_button_hover = pygame.image.load("modules/graphic/assets/background_button_hover.png").convert_alpha()
 
     # Button size
     BUTTON_WIDTH = 300
     BUTTON_HEIGHT = 70
 
+    #background button and hover
     background_button = pygame.transform.scale(background_button, (BUTTON_WIDTH, BUTTON_HEIGHT))
-    background_button_exit = pygame.transform.scale(background_button_exit, (BUTTON_WIDTH, BUTTON_HEIGHT))
     background_button_hover = pygame.transform.scale(background_button_hover, (BUTTON_WIDTH,BUTTON_HEIGHT))
-    #pygame.draw.rect(screen, (180, 50, 50), back_button)
-    #pygame.draw.rect(screen, (50, 180, 50), add_button)
-    #pygame.draw.rect(screen, (50, 50, 180), delete_button)
 
-    screen.blit(font.render("Retour", True, (255, 255, 255)), (back_button.x + 20, back_button.y + 5))
-    screen.blit(font.render("Ajouter", True, (255, 255, 255)), (add_button.x + 20, add_button.y + 10))
-    screen.blit(font.render("Supprimer", True, (255, 255, 255)), (delete_button.x + 10, delete_button.y + 10))
+    # Return Button
+    return_button = pygame.Rect((center_x + 500), (center_y -500),BUTTON_WIDTH, BUTTON_HEIGHT)
+    mouse_pos = pygame.mouse.get_pos()
+    return_image = (background_button_hover if return_button.collidepoint(mouse_pos)else background_button)
+    screen.blit(return_image, return_button)
+    draw_text("Retour", 36, BLUE, return_button.center, screen)
+
+    #Add Button
+    add_button = pygame.Rect((center_x + 500), (center_y -400),BUTTON_WIDTH, BUTTON_HEIGHT)
+    mouse_pos = pygame.mouse.get_pos()
+    return_image = (background_button_hover if add_button.collidepoint(mouse_pos)else background_button)
+    screen.blit(return_image, add_button)
+    draw_text("Add", 36, BLUE, add_button.center, screen)
+    
+    #Delete Button    
+    delete_button_button = pygame.Rect((center_x + 500), (center_y -300),BUTTON_WIDTH, BUTTON_HEIGHT)
+    mouse_pos = pygame.mouse.get_pos()
+    return_image = (background_button_hover if delete_button_button.collidepoint(mouse_pos)else background_button)
+    screen.blit(return_image, delete_button_button)
+    draw_text("Delete", 36, BLUE, delete_button_button.center, screen)
 
 def draw():
     screen.fill((30, 30, 30))
@@ -159,14 +182,13 @@ def words_list_page():
                     scroll_offset = min(max_scroll, scroll_offset + 20)
 
                 if back_button.collidepoint(event.pos):
-                    running = False
-
+                    return "menu"
                 elif add_button.collidepoint(event.pos):
                     pass
 
                 elif delete_button.collidepoint(event.pos):
                     pass
 
-                select_word(event.pos)
+                select_word(event.pos, scroll_offset)
 
         clock.tick(60)

@@ -3,8 +3,7 @@
 import pygame
 import time
 import sys
-from modules.words_list_page import word_list
-
+from modules.words_list_page import words_list_page
 from modules.words_list import words_selector
 
 
