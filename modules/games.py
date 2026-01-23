@@ -2,6 +2,7 @@
 import pygame
 from modules.games_pages import display_game
 from modules.game_logic import letter, games_difficulty, win
+from modules.score import ask_username, save_score
 import time
 
 def games(difficulty, word):
@@ -39,6 +40,11 @@ def games(difficulty, word):
                     result = win(guess, word, life)
                     if result is True:
                         display_game(guess, life, guessed_letters, difficulty)
+                        
+                        # Handle Score
+                        current_username = ask_username()
+                        save_score(current_username, difficulty)
+                        
                         time.sleep(2)
                         running = False
                     elif result is False:
@@ -47,3 +53,6 @@ def games(difficulty, word):
                         running = False
 
     return guess
+
+def score():
+    
