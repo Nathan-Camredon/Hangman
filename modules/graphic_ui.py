@@ -4,7 +4,7 @@ import pygame
 import time
 import sys
 from modules.words_list_page import word_list
-from modules.games import games
+
 from modules.words_list import words_selector
 
 
@@ -115,6 +115,7 @@ def song(name):
 
 # Menu
 def menu():
+    from modules.games import games
 
     # Variables
     window = screen
