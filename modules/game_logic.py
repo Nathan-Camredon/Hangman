@@ -4,7 +4,18 @@ import random
 #----------Function----------
 def letter(A, guess, word, life, guessed_letters, difficulty):
     """
-    Verify if the letter is in the word
+    Processes a letter guess in the Hangman game.
+
+    Args:
+        A (str): The letter guessed by the player.
+        guess (list): The current state of the guessed word (letters and underscores).
+        word (str): The target secret word.
+        life (int): The current remaining lives.
+        guessed_letters (list): List of already guessed letters.
+        difficulty (int): The current game difficulty level.
+
+    Returns:
+        tuple: Updated (guess, life, guessed_letters).
     """
     # Check if letter already guessed
     if A in guessed_letters:
@@ -29,7 +40,13 @@ def letter(A, guess, word, life, guessed_letters, difficulty):
             
 def games_difficulty(difficulty):
     """
-    Set the difficulty (lives based on level)
+    Determines the total lives based on the difficulty level.
+
+    Args:
+        difficulty (int): The difficulty level (0=Easy, 1=Normal, 2=Hard, 3=God Like).
+
+    Returns:
+        int: The number of lives.
     """
     if difficulty == 0:
         life = 7
@@ -43,7 +60,15 @@ def games_difficulty(difficulty):
 
 def win(guess, word, life):
     """
-    Verify if the player won or lost
+    Checks the current game status.
+
+    Args:
+        guess (list): The current guessed word state.
+        word (str): The secret word.
+        life (int): Remaining lives.
+
+    Returns:
+        bool or None: True if won, False if lost, None if game continues.
     """
     if "".join(guess) == word: 
         return True
@@ -54,8 +79,15 @@ def win(guess, word, life):
 
 def russian(life):
     """
-    Russian Roulette mechanic for Difficulty 3.
-    Probability to die increases with mistakes.
+    Implements the 'Russian Roulette' mechanic for Difficulty 3.
+    
+    The probability to instantly lose all lives increases as the player makes mistakes.
+
+    Args:
+        life (int): Current lives remaining.
+
+    Returns:
+        bool: True if the player unluckily dies, False otherwise.
     """
 
     max_lives = 6

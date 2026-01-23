@@ -37,7 +37,7 @@ def games(difficulty, word):
                     letter_input = event.unicode.lower()
                     guess, life, guessed_letters = letter(letter_input, guess, word, life, guessed_letters, difficulty)
                     
-                    # Check Win/Lose condition
+                    # Check if the game is over (Win or Lose)
                     result = win(guess, word, life)
                     if result is True:
                         display_game(guess, life, guessed_letters, difficulty)
