@@ -1,3 +1,5 @@
+# Fichier wods_list_page.py
+
 import pygame
 from modules.words_list import load_words
 from modules.delete_word_page import draw_delete_word_page, handle_delete_word_event

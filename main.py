@@ -1,9 +1,7 @@
+# Fichier main.py
 from modules.games import games
-from modules.games import games_difficulty
-from modules.graphic_ui import menu, screen
-from modules.delete_word_page import DeleteWordPage
-from modules.add_word_page import AddWordPage
-from modules.words_list import WordsListPage
+from modules.graphic_ui import menu
+import pygame
 
 state = "words_list"
 current_page = WordsListPage(
@@ -13,9 +11,16 @@ current_page = WordsListPage(
     on_delete=lambda word: set_delete_word(word)
 )
 def main():
-    while True: 
-        difficulty = 0
-        menu()
+    while True:
+        difficulty = menu()
+        if difficulty is None:
+            break
+
+        result = games(difficulty, "vicodine")
+        print("Résultat :", result)
+
+    pygame.quit()
+
 if __name__ == "__main__":
     main()
 
