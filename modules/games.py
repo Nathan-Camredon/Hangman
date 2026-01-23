@@ -42,11 +42,11 @@ def games(difficulty, word):
                     if result is True:
                         display_game(guess, life, guessed_letters, difficulty)
                         pygame.display.flip()
-                        end_game_screen("Win", word)
+                        end_game_screen("WIN", word)
                         return "WIN"
                     elif result is False:
                         display_game(guess, life, guessed_letters, difficulty)
-                        end_game_screen("Lose", word)
+                        end_game_screen("LOSE", word)
                         return "LOSE"
 
     return guess

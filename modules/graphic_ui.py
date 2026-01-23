@@ -62,6 +62,8 @@ background_main = pygame.transform.scale(background_main,(WIDHT, HEIGHT))
 background_score = pygame.image.load("modules/graphic/assets/background_score.png").convert_alpha()
 background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
 
+popup_img = pygame.image.load("modules/graphic/assets/background_score.png").convert_alpha()
+popup_rect = popup_img.get_rect(center=(WIDHT // 2, HEIGHT // 2))
 
 # --- BUTTON IMAGES ---
 background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
@@ -113,6 +115,46 @@ def window_size(size_x, size_y, name):
 def song(name):
     pass # En attente d'une musique
 
+
+def end_game_screen(result, word):
+    font_title = pygame.font.SysFont("Arial", 60, bold=True)
+    font_word = pygame.font.SysFont("Arial", 40)
+
+    if result == "WIN":
+        title_text = "Gagné"
+        color = GREEN
+    else:
+        title_text = "Perdu"
+        color = RED
+
+    title_surface = font_title.render(title_text, True, color)
+    word_surface = font_word.render(f"Le mot était : {word}", True, WHITE)
+
+    start_time = pygame.time.get_ticks()
+
+    while pygame.time.get_ticks() - start_time < 3000: 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return "QUIT"
+
+        
+        screen.blit(background_main, (0, 0)) 
+
+
+        screen.blit(popup_img, popup_rect)
+
+
+        screen.blit(
+            title_surface,
+            title_surface.get_rect(center=(popup_rect.centerx, popup_rect.centery - 40))
+        )
+        screen.blit(
+            word_surface,
+            word_surface.get_rect(center=(popup_rect.centerx, popup_rect.centery + 30))
+        )
+
+        pygame.display.flip()
+
 # Menu
 def menu():
     from modules.games import games
@@ -132,7 +174,7 @@ def menu():
 
 
     while running:
-        
+        screen.blit(background_main, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 time.sleep(0.4)
@@ -217,40 +259,6 @@ def menu():
 
         clock.tick(60)
         pygame.display.update()
-
-def end_game_screen(result, word):
-    font_title = pygame.font.SysFont("Arial", 60, bold=True)
-    font_word = pygame.font.SysFont("Arial", 40)
-
-    if result == "WIN":
-        title_text = "Win"
-        color = GREEN
-    else:
-        title_text = "Lose"
-        color = RED
-
-    title_surface = font_title.render(title_text, True, color)
-    word_surface = font_word.render(f"Le mot était : {word}", True, WHITE)
-
-    start_time = pygame.time.get_ticks()
-
-    while pygame.time.get_ticks() - start_time < 3000:  # ⏱ 3 secondes
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return "QUIT"
-
-        screen.fill(BLACK)
-
-        screen.blit(
-            title_surface,
-            title_surface.get_rect(center=(WIDHT // 2, HEIGHT // 2 - 50))
-        )
-        screen.blit(
-            word_surface,
-            word_surface.get_rect(center=(WIDHT // 2, HEIGHT // 2 + 40))
-        )
-
-        pygame.display.flip()
 
 
 # Fonction en attente
