@@ -1,4 +1,5 @@
 import os
+import random
 from colored import Fore, Back, Style
 
 def load_words():
@@ -39,6 +40,40 @@ def delete_word(words, word_to_delete, file_path):
                 for word in words:
                     file.write(f"{word}\n")
     return words
+
+def words_selector(difficulty):
+    """
+    Selects a random word from the dictionary based on the specified difficulty level.
+
+    Args:
+        difficulty (int): The difficulty level (0-3).
+                          0: 5-letter words
+                          1: 6-letter words
+                          2: 7-letter words
+                          3: 8-letter words
+
+    Returns:
+        str: A random word matching the difficulty length.
+             Returns a random word from the full list if no match is found (fallback).
+             Returns None if the word list is empty.
+    """
+    words, file_path = load_words()
+    
+    # Mapping difficulty index to word length
+    # 0 -> 5, 1 -> 6, 2 -> 7, 3 -> 8
+    target_length = 5 + difficulty
+    
+    filtered_words = filter_words_by_length(words, target_length)
+    if filtered_words:
+        return random.choice(filtered_words)
+    
+    # Fallback: if no words match the criteria, return a random word from the full list
+    if words:
+        return random.choice(words)
+        
+    return None
+
+
 
 #test
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import time
 import sys
 from modules.words_list_page import word_list
 from modules.games import games
-
+from modules.words_list import words_selector
 
 
 
@@ -135,7 +135,8 @@ def menu():
 
                 # Play Button
                 if play_button.collidepoint(event.pos):
-                    games(difficulty_index, "vicodine")
+                    word = words_selector(difficulty_index)
+                    games(difficulty_index, word)
                     # ajouter stop music
 
                 # Word Button
