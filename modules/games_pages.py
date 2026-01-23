@@ -25,7 +25,8 @@ RED = (180, 50, 50)
 
 # Load Character Assets
 # Using a dictionary to map number of mistakes (7 - life) to the image name part
-# Difficulty 0 (Character 1)
+
+# Difficulty 0 (Character 1 - Basic Stickman)
 char1_imgs = {}
 try:
     char1_imgs[1] = pygame.image.load("modules/graphic/assets/character 1/Head 1.png")
@@ -35,12 +36,11 @@ try:
     char1_imgs[5] = pygame.image.load("modules/graphic/assets/character 1/footL 1.png")
     char1_imgs[6] = pygame.image.load("modules/graphic/assets/character 1/footR 1.png")
     char1_imgs[7] = pygame.image.load("modules/graphic/assets/character 1/weapon 1.png")  
-    # Scaling if necessary (approximate size, adjust as needed or keep original if they are pre-scaled)
-    # Assuming assets are roughly correct size based on typical game assets
+    # Scaling if necessary
 except FileNotFoundError:
     print("Error loading Character 1 assets")
 
-# Difficulty 1 & 2 (Character 2)
+# Difficulty 1 & 2 (Character 2 - Advanced Character)
 char2_imgs = {}
 try:
     char2_imgs[1] = pygame.image.load("modules/graphic/assets/character 2/head 2.png")
@@ -57,8 +57,16 @@ except FileNotFoundError:
 # Function to display the game state
 def display_game(guess, life, guessed_letters, difficulty):
     """
-    Render the game state to the screen.
-    Includes the guessed word, guessed letters, and hangman character.
+    Renders the current game state to the screen.
+
+    Draws the background, the hangman character based on remaining lives,
+    the list of used letters, and the current state of the secret word.
+
+    Args:
+        guess (list): The list of characters representing the current guess state (letters or underscores).
+        life (int): The number of lives remaining.
+        guessed_letters (list): A list of all letters guessed so far.
+        difficulty (int): The selected difficulty level, used to choose the character assets.
     """
     window = screen
     # Use global font setup if possible, or init here. 
