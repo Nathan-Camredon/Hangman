@@ -13,15 +13,19 @@ def load_words():
 
 def filter_words_by_length(words, length):
     difficulty_list = []
+    #difficulty hard = words longer than 6 letters
     if length > 6:
         for word in words:
             if len(word) > 6:
                 difficulty_list.append(word)
         return difficulty_list
-    else:
+    #difficulty easy = words shorter than or equal to 6 letters
+    elif length < 6:
         for word in words:
             if len(word) <= length:
                 difficulty_list.append(word)
+    else:
+        difficulty_list = words
     return difficulty_list
 
 def add_word(words, new_word, file_path):

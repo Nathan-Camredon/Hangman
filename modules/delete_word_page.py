@@ -1,35 +1,55 @@
 import pygame
-from file_manager import load_words, save_words
+pygame.init()
+clock = pygame.time.Clock()
 
-class DeleteWordPage:
-    def __init__(self, screen, word, on_back):
-        self.screen = screen
-        self.word = word
-        self.on_back = on_back
-        self.font = pygame.font.SysFont("arial", 32)
+info = pygame.display.Info()
+WIDTH, HEIGHT = info.current_w, info.current_h
+center_x = WIDTH // 2
+center_y = HEIGHT // 2
 
-        self.yes_button = pygame.Rect(100, 300, 150, 50)
-        self.no_button = pygame.Rect(300, 300, 150, 50)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GRAY = (200, 200, 200)
+RED = (180, 50, 50)
 
-    def draw(self):
-        self.screen.fill((20, 20, 20))
+FONT = pygame.font.SysFont("Arial", 32)
+SMALL_FONT = pygame.font.SysFont("Arial", 24)
 
-        msg = self.font.render(f"Supprimer '{self.word}' ?", True, (255, 255, 255))
-        self.screen.blit(msg, (100, 200))
+# Boutons
+cancel_button = pygame.Rect(center_x - 300, center_y + 80, 250, 60)
+confirm_button = pygame.Rect(center_x + 50, center_y + 80, 250, 60)
 
-        pygame.draw.rect(self.screen, (180, 50, 50), self.yes_button)
-        pygame.draw.rect(self.screen, (50, 180, 50), self.no_button)
 
-        self.screen.blit(self.font.render("Oui", True, (255, 255, 255)), (140, 310))
-        self.screen.blit(self.font.render("Non", True, (255, 255, 255)), (340, 310))
+def draw_delete_word_page(screen, word):
+    screen.fill(WHITE)
 
-    def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.yes_button.collidepoint(event.pos):
-                words = load_words()
-                words = [w for w in words if w != self.word]
-                save_words(words)
-                self.on_back()
+    title = FONT.render("Supprimer ce mot ?", True, BLACK)
+    screen.blit(title, (center_x - title.get_width() // 2, 40))
 
-            elif self.no_button.collidepoint(event.pos):
-                self.on_back()
+    word_text = FONT.render(word, True, RED)
+    screen.blit(word_text, (center_x - word_text.get_width() // 2, center_y - 40))
+
+    # Bouton annuler
+    pygame.draw.rect(screen, GRAY, cancel_button)
+    screen.blit(SMALL_FONT.render("Annuler", True, BLACK),
+                (cancel_button.x + 60, cancel_button.y + 15))
+
+    # Bouton confirmer
+    pygame.draw.rect(screen, RED, confirm_button)
+    screen.blit(SMALL_FONT.render("Supprimer", True, WHITE),
+                (confirm_button.x + 50, confirm_button.y + 15))
+
+    pygame.display.update()
+    clock.tick(60)
+
+
+def handle_delete_word_event(event):
+    if event.type == pygame.MOUSEBUTTONDOWN:
+
+        if cancel_button.collidepoint(event.pos):
+            return "cancel"
+
+        if confirm_button.collidepoint(event.pos):
+            return "confirm"
+
+    return None
