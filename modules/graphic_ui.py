@@ -1,7 +1,7 @@
 import pygame
 import time
 import sys
-from modules.words_list_page import word_list
+from modules.words_list_page import WordsListPage
 from modules.games import games
 
 
@@ -149,7 +149,7 @@ def menu():
 
                 # Word Button
                 elif word_button.collidepoint(event.pos): # En attente de la vrai fonction
-                    words_list_page.word_list(screen, clock)
+                    word_list(screen, clock)
                     # ajouter stop music
 
                 # Left Arrow
