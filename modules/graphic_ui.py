@@ -83,14 +83,7 @@ arrow_right_png = pygame.transform.scale(arrow_right_png, (60, 60))
 #--------------------
 
 
-
-
 # Function Buttons Rect
-def draw_button(x, y, width, height, color, window):
-    rect = pygame.Rect(x, y, width, height)
-    pygame.draw.rect(window, color, rect)
-    return rect
-
 def draw_button_pic(x, y, width, height, image, window):
     rect = pygame.Rect(x, y, width, height)
     image = pygame.transform.scale(image, (width, height))
@@ -130,8 +123,6 @@ def menu():
     left_arrow_rect.topleft = (center_x - 250, center_y + 120)
     right_arrow_rect.topleft = (center_x + 90, center_y + 120)
 
-    # --- PLAY BUTTON RECT ---
-    
 
     while running:
         
@@ -185,12 +176,12 @@ def menu():
         draw_text("JOUER", 36, WHITE, play_button.center, window) 
         
         # Difficulty rect
-        difficulty_button = draw_button((center_x - 200), (center_y + 110), 300, 70, difficulty_color[difficulty_index], window)
+        difficulty_button = pygame.Rect((center_x - 200), (center_y + 110), BUTTON_WIDTH, BUTTON_HEIGHT)
 
         # Difficulty swap
-        font = pygame.font.SysFont(None, 40)
-        text = font.render(difficulties[difficulty_index], True, BLACK)
-        window.blit(text, (center_x - 100, center_y + 130))
+        window.blit(background_button, difficulty_button)
+        draw_text(difficulties[difficulty_index],36, difficulty_color[difficulty_index], difficulty_button.center, window)
+
 
 
         # Word
@@ -228,6 +219,10 @@ def word_list():
     pass
 def game():
     pass
+
+
+
+# Call
 menu()
 pygame.quit()
 sys.exit()
