@@ -1,3 +1,5 @@
+# Fichier wods_list_page.py
+
 import pygame
 from modules.words_list import load_words, filter_words_by_length, add_word, delete_word
 

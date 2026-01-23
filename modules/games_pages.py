@@ -1,3 +1,5 @@
+# Fichier games_pages.py
+
 import pygame
 from modules.game_logic import games_difficulty
 
@@ -21,6 +23,9 @@ BLACK = (0, 0, 0)
 RED = (180, 50, 50)
 
 
+# Background 
+background_game = pygame.image.load("modules/graphic/assets/background_game.png").convert()
+background_game = pygame.transform.scale(background_game, (WIDHT, HEIGHT))
 
 
 # Load Character Assets
@@ -74,7 +79,7 @@ def display_game(guess, life, guessed_letters, difficulty):
     font = pygame.font.SysFont("Arial", 40)
     small_font = pygame.font.SysFont("Arial", 25)
 
-    window.fill(WHITE)
+    window.blit(background_game, (0,0))
     
     # --- Draw Character ---
     max_lives = games_difficulty(difficulty)
@@ -106,7 +111,7 @@ def display_game(guess, life, guessed_letters, difficulty):
     for index, letter in enumerate(guess):
         text = font.render(f"{letter}", True, BLACK)
         # Position text: centered horizontally, spaced vertically
-        text_rect = text.get_rect(center=(center_x - (len(guess) * 50) // 2 + index * 50, center_y))
+        text_rect = text.get_rect(center=((center_x - 55) - (len(guess) * 50) // 2 + index * 50, (center_y + 180)))
         window.blit(text, text_rect)
 
     pygame.display.flip()

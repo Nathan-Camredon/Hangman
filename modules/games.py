@@ -1,7 +1,10 @@
+# Fichier games.py
+
 #----------Import----------
 import pygame
 from modules.games_pages import display_game
 from modules.game_logic import letter, games_difficulty, win
+from modules.graphic_ui import end_game_screen
 import time
 
 def games(difficulty, word):
@@ -21,8 +24,7 @@ def games(difficulty, word):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-                pygame.quit()
-                return # Exit function
+                return "QUIT"
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -39,11 +41,12 @@ def games(difficulty, word):
                     result = win(guess, word, life)
                     if result is True:
                         display_game(guess, life, guessed_letters, difficulty)
-                        time.sleep(2)
-                        running = False
+                        pygame.display.flip()
+                        end_game_screen("Win", word)
+                        return "WIN"
                     elif result is False:
                         display_game(guess, life, guessed_letters, difficulty)
-                        time.sleep(2)
-                        running = False
+                        end_game_screen("Lose", word)
+                        return "LOSE"
 
     return guess

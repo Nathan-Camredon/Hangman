@@ -1,3 +1,5 @@
+# Fichier graphic_ui.py
+
 import pygame
 import time
 import sys
@@ -49,6 +51,10 @@ difficulty_color = [
     (200, 50, 50),   # hard = purple
     (150, 0, 200),   # god_like = red
 ]
+
+
+
+
 
 # Background
 background_main = pygame.image.load("modules/graphic/assets/background_main.png").convert()
@@ -129,7 +135,7 @@ def menu():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 time.sleep(0.4)
-                running = False
+                return None
 
             if event.type == pygame.MOUSEBUTTONDOWN:
 
@@ -161,7 +167,7 @@ def menu():
                 # Exit
                 elif exit_button.collidepoint(event.pos):
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-                    return
+                    return None
 
 
 
@@ -211,8 +217,39 @@ def menu():
         clock.tick(60)
         pygame.display.update()
 
+def end_game_screen(result, word):
+    font_title = pygame.font.SysFont("Arial", 60, bold=True)
+    font_word = pygame.font.SysFont("Arial", 40)
 
+    if result == "WIN":
+        title_text = "Win"
+        color = GREEN
+    else:
+        title_text = "Lose"
+        color = RED
 
+    title_surface = font_title.render(title_text, True, color)
+    word_surface = font_word.render(f"Le mot était : {word}", True, WHITE)
+
+    start_time = pygame.time.get_ticks()
+
+    while pygame.time.get_ticks() - start_time < 3000:  # ⏱ 3 secondes
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return "QUIT"
+
+        screen.fill(BLACK)
+
+        screen.blit(
+            title_surface,
+            title_surface.get_rect(center=(WIDHT // 2, HEIGHT // 2 - 50))
+        )
+        screen.blit(
+            word_surface,
+            word_surface.get_rect(center=(WIDHT // 2, HEIGHT // 2 + 40))
+        )
+
+        pygame.display.flip()
 
 
 # Fonction en attente
@@ -223,8 +260,4 @@ def game():
 
 
 
-# Call
-menu()
-pygame.quit()
-sys.exit()
 
