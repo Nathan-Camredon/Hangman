@@ -1,3 +1,5 @@
+# Fichier word_list.py
+
 import os
 from colored import Fore, Back, Style
 
