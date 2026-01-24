@@ -3,7 +3,7 @@ import pygame
 from modules.words_list import load_words
 from modules.delete_word_page import draw_delete_word_page, handle_delete_word_event
 from modules.add_word_page import draw_add_word_page, handle_add_word_event
-  
+
 clock = pygame.time.Clock()
 
 #window size function

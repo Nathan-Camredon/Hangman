@@ -24,6 +24,12 @@ WIDHT, HEIGHT = screen.get_size()
 center_x = WIDHT // 2
 center_y = HEIGHT // 2
 
+
+# Soundtrack
+pygame.mixer.music.load("modules/graphic/assets/soundtrack.mp3")
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play(-1)
+
 # Color
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
