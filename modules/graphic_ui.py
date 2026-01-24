@@ -1,5 +1,9 @@
 # Fichier graphic_ui.py
 
+
+
+
+
 import pygame
 import time
 import sys
@@ -9,13 +13,16 @@ from modules.words_list import words_selector
 
 
 
-# Init 
+
+# Init
 pygame.init()
 clock = pygame.time.Clock()
+
 
 #---------------
 # CONSTANTS
 #---------------
+
 
 # Window Size
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -29,6 +36,7 @@ center_y = HEIGHT // 2
 pygame.mixer.music.load("modules/graphic/assets/soundtrack.mp3")
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1)
+
 
 # Color
 WHITE = (255, 255, 255)
@@ -50,6 +58,7 @@ difficulties = [
     "Difficile",
     "G0d lik3"]
 
+
 difficulty_color = [
     (0, 200, 0),     # easy = green
     (240, 220, 0),   # medium = yellow
@@ -58,22 +67,21 @@ difficulty_color = [
 ]
 
 
-
-
-
 # Background
 background_main = pygame.image.load("modules/graphic/assets/background_main.png").convert()
 background_main = pygame.transform.scale(background_main,(WIDHT, HEIGHT))
 background_score = pygame.image.load("modules/graphic/assets/background_score.png").convert_alpha()
 background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
-
 popup_img = pygame.image.load("modules/graphic/assets/background_score.png").convert_alpha()
 popup_rect = popup_img.get_rect(center=(WIDHT // 2, HEIGHT // 2))
+
 
 # --- BUTTON IMAGES ---
 background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
 background_button_exit = pygame.image.load("modules/graphic/assets/background_button_exit.png").convert_alpha()
 background_button_hover = pygame.image.load("modules/graphic/assets/background_button_hover.png").convert_alpha()
+
+
 
 # Button size
 BUTTON_WIDTH = 300
@@ -83,6 +91,7 @@ background_button = pygame.transform.scale(background_button, (BUTTON_WIDTH, BUT
 background_button_exit = pygame.transform.scale(background_button_exit, (BUTTON_WIDTH, BUTTON_HEIGHT))
 background_button_hover = pygame.transform.scale(background_button_hover, (BUTTON_WIDTH,BUTTON_HEIGHT))
 
+
 # Arrow Difficulty
 arrow_left_png = pygame.image.load("modules/graphic/assets/arrow_left.png").convert_alpha()
 arrow_right_png = pygame.image.load("modules/graphic/assets/arrow_right.png").convert_alpha()
@@ -91,13 +100,17 @@ arrow_left_png = pygame.transform.scale(arrow_left_png, (60, 60))
 arrow_right_png = pygame.transform.scale(arrow_right_png, (60, 60))
 
 
+
+
 #--------------------
 #   FUNCTIONS
 #--------------------
 
 
 # Function Buttons Rect
+
 def draw_button_pic(x, y, width, height, image, window):
+    """Draw Button size, position and screen"""
     rect = pygame.Rect(x, y, width, height)
     image = pygame.transform.scale(image, (width, height))
     window.blit(image, rect)
@@ -105,6 +118,7 @@ def draw_button_pic(x, y, width, height, image, window):
 
 # Text draw
 def draw_text(text, size, color, center, window):
+    """Draw text with color size and screen"""
     font = pygame.font.SysFont(None, size)
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect(center=center)
@@ -112,16 +126,13 @@ def draw_text(text, size, color, center, window):
 
 # Function window size
 def window_size(size_x, size_y, name):
+    """Window Size"""
     window = pygame.display.set_mode((size_x, size_y))
     pygame.display.set_caption(name)
     return window
 
-# Song
-def song(name):
-    pass # En attente d'une musique
-
-
 def end_game_screen(result, word):
+    """Function for end game, win or lose with text and pop up, back to menu after 3s"""
     font_title = pygame.font.SysFont("Arial", 60, bold=True)
     font_word = pygame.font.SysFont("Arial", 40)
 
@@ -162,6 +173,8 @@ def end_game_screen(result, word):
 
 # Menu
 def menu():
+    """Game loop craft Buttons / Arrows / Mouse pos and 
+    Play, difficulty, words & quit button"""
     from modules.games import games
 
     # Variables
@@ -191,18 +204,18 @@ def menu():
                 if play_button.collidepoint(event.pos):
                     word = words_selector(difficulty_index)
                     games(difficulty_index, word)
-                    # ajouter stop music
+                    
 
                 # Word Button
-                elif word_button.collidepoint(event.pos): # En attente de la vrai fonction
+                elif word_button.collidepoint(event.pos):
                     words_list_page()
-                    # ajouter stop music
+                    
 
                 # Left Arrow
                 elif left_arrow_rect.collidepoint(event.pos):
                     difficulty_index -= 1
                     if difficulty_index < 0:
-                        difficulty_index = len(difficulties) - 1 # Gestion d'erreur ( a effaer repere flo)
+                        difficulty_index = len(difficulties)
 
 
                 # Right Arrow
@@ -210,7 +223,8 @@ def menu():
                     difficulty_index += 1
                     if difficulty_index >= len(difficulties):
                         difficulty_index = 0
-                        # Gestion d'erreur ( a effacer repère flo)
+                        
+
 
                 # Exit
                 elif exit_button.collidepoint(event.pos):
@@ -264,14 +278,3 @@ def menu():
 
         clock.tick(60)
         pygame.display.update()
-
-
-# Fonction en attente
-def word_list():
-    pass
-def game():
-    pass
-
-
-
-
