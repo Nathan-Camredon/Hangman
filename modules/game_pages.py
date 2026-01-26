@@ -1,7 +1,7 @@
-# Fichier games_pages.py
+# Fichier game_pages.py
 
 import pygame
-from modules.game_logic import games_difficulty
+from modules.game_logic import game_difficulty
 
 
 # Init 
@@ -82,7 +82,7 @@ def display_game(guess, life, guessed_letters, difficulty):
     window.blit(background_game, (0,0))
     
     # --- Draw Character ---
-    max_lives = games_difficulty(difficulty)
+    max_lives = game_difficulty(difficulty)
     mistakes = max_lives - life
     
     imgs_to_use = char1_imgs if difficulty == 0 else char2_imgs

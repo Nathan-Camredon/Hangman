@@ -175,7 +175,7 @@ def end_game_screen(result, word):
 def menu():
     """Game loop craft Buttons / Arrows / Mouse pos and 
     Play, difficulty, words & quit button"""
-    from modules.games import games
+    from modules.game import game
 
     # Variables
     window = screen
@@ -203,7 +203,7 @@ def menu():
                 # Play Button
                 if play_button.collidepoint(event.pos):
                     word = words_selector(difficulty_index)
-                    games(difficulty_index, word)
+                    game(difficulty_index, word)
                     
 
                 # Word Button

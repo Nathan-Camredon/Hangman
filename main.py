@@ -1,5 +1,5 @@
 # Fichier main.py
-from modules.games import games
+from modules.game import game
 from modules.graphic_ui import menu
 import pygame
 

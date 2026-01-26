@@ -38,7 +38,7 @@ def letter(A, guess, word, life, guessed_letters, difficulty):
 
     return guess, life, guessed_letters
             
-def games_difficulty(difficulty):
+def game_difficulty(difficulty):
     """
     Determines the total lives based on the difficulty level.
 
