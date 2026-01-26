@@ -1,6 +1,6 @@
 
 import random
-
+from modules.score import save_score
 #----------Function----------
 def letter(A, guess, word, life, guessed_letters, difficulty):
     """
@@ -41,11 +41,12 @@ def games_difficulty(difficulty):
         life = 6
     return life
 
-def win(guess, word, life):
+def win(guess, word, life, username, difficulty):
     """
     Verify if the player won or lost
     """
     if "".join(guess) == word: 
+        save_score(username, difficulty)
         return True
     if life == 0:
         return False

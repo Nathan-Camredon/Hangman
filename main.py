@@ -1,9 +1,17 @@
 from modules.games import games
 from modules.games import games_difficulty
 from modules.graphic_ui import menu
+import pygame
+from modules.score import ask_username
+
 
 def main():
-    while True: 
-        menu()
+    username = ask_username()
+    while True:
+
+        difficulty = menu(username)
+        if difficulty is None:
+            break
+    pygame.quit()
 if __name__ == "__main__":
     main()

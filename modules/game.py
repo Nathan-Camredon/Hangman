@@ -5,7 +5,11 @@ from modules.game_logic import letter, games_difficulty, win
 from modules.score import ask_username, save_score
 import time
 
+<<<<<<< Updated upstream:modules/games.py
 def games(difficulty, word):
+=======
+def game(difficulty, word, username):
+>>>>>>> Stashed changes:modules/game.py
     """
     Start the game with Pygame loop
     """
@@ -36,8 +40,13 @@ def games(difficulty, word):
                     letter_input = event.unicode.lower()
                     guess, life, guessed_letters = letter(letter_input, guess, word, life, guessed_letters, difficulty)
                     
+<<<<<<< Updated upstream:modules/games.py
                     # Check Win/Lose condition
                     result = win(guess, word, life)
+=======
+                    # Check if the game is over (Win or Lose)
+                    result = win(guess, word, life, username, difficulty)
+>>>>>>> Stashed changes:modules/game.py
                     if result is True:
                         display_game(guess, life, guessed_letters, difficulty)
                         

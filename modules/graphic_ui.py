@@ -115,7 +115,10 @@ def song(name):
     pass # En attente d'une musique
 
 # Menu
-def menu():
+def menu(username):
+    """Game loop craft Buttons / Arrows / Mouse pos and 
+    Play, difficulty, words & quit button"""
+    from modules.game import game
 
     # Variables
     window = screen
@@ -144,8 +147,9 @@ def menu():
 
                 # Play Button
                 if play_button.collidepoint(event.pos):
-                    games(difficulty_index, "vicodine")
-                    # ajouter stop music
+                    word = words_selector(difficulty_index)
+                    game(difficulty_index, word, username)
+                    
 
                 # Word Button
                 elif word_button.collidepoint(event.pos): # En attente de la vrai fonction
