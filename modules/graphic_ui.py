@@ -1,12 +1,8 @@
-# Fichier graphic_ui.py
-
-
-
+# Files graphic_ui.py
 
 
 import pygame
 import time
-import sys
 from modules.words_list_page import words_list_page
 from modules.words_list import words_selector
 
@@ -53,10 +49,10 @@ YELLOW = (255, 255, 0, 255)
 
 # Difficulty
 difficulties = [
-    "Facile",
-    "Normal",
-    "Difficile",
-    "G0d lik3"]
+    "EASY",
+    "MEDIUM",
+    "HARD",
+    "G0D LIK3"]
 
 
 difficulty_color = [
@@ -107,8 +103,7 @@ arrow_right_png = pygame.transform.scale(arrow_right_png, (60, 60))
 #--------------------
 
 
-# Function Buttons Rect
-
+# Function Buttons Rectangle
 def draw_button_pic(x, y, width, height, image, window):
     """Draw Button size, position and screen"""
     rect = pygame.Rect(x, y, width, height)
@@ -116,7 +111,7 @@ def draw_button_pic(x, y, width, height, image, window):
     window.blit(image, rect)
     return rect
 
-# Text draw
+# Function Text draw
 def draw_text(text, size, color, center, window):
     """Draw text with color size and screen"""
     font = pygame.font.SysFont(None, size)
@@ -131,6 +126,7 @@ def window_size(size_x, size_y, name):
     pygame.display.set_caption(name)
     return window
 
+# Function end game
 def end_game_screen(result, word):
     """Function for end game, win or lose with text and pop up, back to menu after 3s"""
     font_title = pygame.font.SysFont("Arial", 60, bold=True)
@@ -144,7 +140,7 @@ def end_game_screen(result, word):
         color = RED
 
     title_surface = font_title.render(title_text, True, color)
-    word_surface = font_word.render(f"Le mot était : {word}", True, WHITE)
+    word_surface = font_word.render(f"The word as  : {word}", True, WHITE)
 
     start_time = pygame.time.get_ticks()
 
@@ -175,7 +171,7 @@ def end_game_screen(result, word):
 def menu():
     """Game loop craft Buttons / Arrows / Mouse pos and 
     Play, difficulty, words & quit button"""
-    from modules.games import games
+    from modules.game import game
 
     # Variables
     window = screen
@@ -203,20 +199,18 @@ def menu():
                 # Play Button
                 if play_button.collidepoint(event.pos):
                     word = words_selector(difficulty_index)
-                    games(difficulty_index, word)
+                    game(difficulty_index, word)
                     
 
                 # Word Button
                 elif word_button.collidepoint(event.pos):
                     words_list_page()
                     
-
                 # Left Arrow
                 elif left_arrow_rect.collidepoint(event.pos):
                     difficulty_index -= 1
                     if difficulty_index < 0:
-                        difficulty_index = len(difficulties)
-
+                        difficulty_index = len(difficulties) - 1
 
                 # Right Arrow
                 elif right_arrow_rect.collidepoint(event.pos):
@@ -242,7 +236,7 @@ def menu():
         mouse_pos = pygame.mouse.get_pos()
         play_image = (background_button_hover if play_button.collidepoint(mouse_pos)else background_button)
         window.blit(play_image, play_button)
-        draw_text("JOUER", 36, WHITE, play_button.center, window) 
+        draw_text("PLAY", 36, WHITE, play_button.center, window) 
         
         # Difficulty rect
         difficulty_button = pygame.Rect((center_x - 200), (center_y + 110), BUTTON_WIDTH, BUTTON_HEIGHT)
@@ -258,7 +252,7 @@ def menu():
         mouse_pos = pygame.mouse.get_pos()
         word_img = (background_button_hover if word_button.collidepoint(mouse_pos) else background_button)
         window.blit(word_img, word_button)
-        draw_text("MOTS", 36, WHITE, word_button.center, window)
+        draw_text("WORDS", 36, WHITE, word_button.center, window)
 
         # Arrow blit
         window.blit(arrow_left_png, left_arrow_rect)
@@ -269,12 +263,12 @@ def menu():
         mouse_pos = pygame.mouse.get_pos()
         exit_img = (background_button_hover if exit_button.collidepoint(mouse_pos) else background_button_exit)
         window.blit(exit_img, exit_button)
-        draw_text("QUITTER", 36, RED, exit_button.center, window)
+        draw_text("QUIT", 36, RED, exit_button.center, window)
 
         
         # Score Rectangle
         score = draw_button_pic(40, 40, 300, 100, background_score, window) 
-        draw_text("VOTRE SCORE : 0", 28, WHITE, score.center, window)
+        draw_text(f"Your Score : ", 28, WHITE, score.center, window)
 
         clock.tick(60)
         pygame.display.update()
