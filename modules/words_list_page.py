@@ -37,8 +37,8 @@ add_button = pygame.Rect(50, 500, 150, 50)
 delete_button = pygame.Rect(250, 500, 150, 50)
 
 # Background
-background_main = pygame.image.load("modules/graphic/assets/background_main.png").convert()
-background_main = pygame.transform.scale(background_main,(WIDHT, HEIGHT))
+background_words = pygame.image.load("modules/graphic/assets/background_words.png").convert()
+background_words = pygame.transform.scale(background_words,(WIDHT, HEIGHT))
 
 
 font = pygame.font.SysFont("arial", 28)
@@ -64,12 +64,6 @@ def draw_words(screen, words, selected_word, scroll_offset, font):
             text = font.render(word, True, color)
             screen.blit(text, (x, y))
             y += line_spacing
-
-def draw_button_pic(x, y, width, height, image, window):
-    rect = pygame.Rect(x, y, width, height)
-    image = pygame.transform.scale(image, (width, height))
-    window.blit(image, rect)
-    return rect
 
 # Text draw
 def draw_text(text, size, color, center, window):
@@ -164,7 +158,7 @@ def words_list_page():
     running = True
 
     while running:
-        screen.blit(background_main, (0, 0))
+        screen.blit(background_words, (0, 0))
 
         draw_words(screen, words, selected_word, scroll_offset, font)
         draw_buttons()   # utilise screen, donc OK
