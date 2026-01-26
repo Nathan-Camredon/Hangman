@@ -1,5 +1,5 @@
-from modules.games import games
-from modules.games import games_difficulty
+# Fichier main.py
+from modules.game import game
 from modules.graphic_ui import menu
 import pygame
 from modules.score import ask_username

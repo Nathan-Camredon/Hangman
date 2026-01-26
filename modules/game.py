@@ -1,19 +1,18 @@
+# Fichier game.py
+
 #----------Import----------
 import pygame
-from modules.games_pages import display_game
-from modules.game_logic import letter, games_difficulty, win
-from modules.score import ask_username, save_score
+from modules.game_pages import display_game
+from modules.game_logic import letter, game_difficulty, win
+from modules.graphic_ui import end_game_screen
 import time
 
-<<<<<<< Updated upstream:modules/games.py
-def games(difficulty, word):
-=======
+<<<<<<< HEAD
 def game(difficulty, word, username):
->>>>>>> Stashed changes:modules/game.py
     """
     Start the game with Pygame loop
     """
-    life = games_difficulty(difficulty)
+    life = game_difficulty(difficulty)
     guessed_letters = []
     guess = ["_"] * len(word)
     
@@ -26,8 +25,7 @@ def game(difficulty, word, username):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-                pygame.quit()
-                return # Exit function
+                return "QUIT"
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -40,28 +38,17 @@ def game(difficulty, word, username):
                     letter_input = event.unicode.lower()
                     guess, life, guessed_letters = letter(letter_input, guess, word, life, guessed_letters, difficulty)
                     
-<<<<<<< Updated upstream:modules/games.py
-                    # Check Win/Lose condition
-                    result = win(guess, word, life)
-=======
+<<<<<<< HEAD
                     # Check if the game is over (Win or Lose)
                     result = win(guess, word, life, username, difficulty)
->>>>>>> Stashed changes:modules/game.py
                     if result is True:
                         display_game(guess, life, guessed_letters, difficulty)
-                        
-                        # Handle Score
-                        current_username = ask_username()
-                        save_score(current_username, difficulty)
-                        
-                        time.sleep(2)
-                        running = False
+                        pygame.display.flip()
+                        end_game_screen("WIN", word)
+                        return "WIN"
                     elif result is False:
                         display_game(guess, life, guessed_letters, difficulty)
-                        time.sleep(2)
-                        running = False
+                        end_game_screen("LOSE", word)
+                        return "LOSE"
 
     return guess
-
-def score():
-    
