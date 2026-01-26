@@ -19,9 +19,11 @@ SMALL_FONT = pygame.font.SysFont("Arial", 24)
 cancel_button = pygame.Rect(center_x - 300, center_y + 80, 250, 60)
 confirm_button = pygame.Rect(center_x + 50, center_y + 80, 250, 60)
 
+background_word = pygame.image.load("modules/graphic/assets/background_word.png").convert()
+background_word = pygame.transform.scale(background_word,(WIDTH, HEIGHT))
 
 def draw_delete_word_page(screen, word):
-    screen.fill(WHITE)
+    screen.blit(background_word, (0, 0))
 
     title = FONT.render("Supprimer ce mot ?", True, BLACK)
     screen.blit(title, (center_x - title.get_width() // 2, 40))
@@ -53,3 +55,19 @@ def handle_delete_word_event(event):
             return "confirm"
 
     return None
+
+def delete_word_page_loop(screen, word):
+    running = True
+
+    while running:
+        draw_delete_word_page(screen, word)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return "cancel"
+
+            result = handle_delete_word_event(event)
+            if result is not None:
+                return result
+
+        clock.tick(60)
