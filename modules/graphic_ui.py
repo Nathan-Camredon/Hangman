@@ -1,12 +1,8 @@
-# Fichier graphic_ui.py
-
-
-
+# Files graphic_ui.py
 
 
 import pygame
 import time
-import sys
 from modules.words_list_page import words_list_page
 from modules.words_list import words_selector
 
@@ -107,8 +103,7 @@ arrow_right_png = pygame.transform.scale(arrow_right_png, (60, 60))
 #--------------------
 
 
-# Function Buttons Rect
-
+# Function Buttons Rectangle
 def draw_button_pic(x, y, width, height, image, window):
     """Draw Button size, position and screen"""
     rect = pygame.Rect(x, y, width, height)
@@ -116,7 +111,7 @@ def draw_button_pic(x, y, width, height, image, window):
     window.blit(image, rect)
     return rect
 
-# Text draw
+# Function Text draw
 def draw_text(text, size, color, center, window):
     """Draw text with color size and screen"""
     font = pygame.font.SysFont(None, size)
@@ -131,6 +126,7 @@ def window_size(size_x, size_y, name):
     pygame.display.set_caption(name)
     return window
 
+# Function end game
 def end_game_screen(result, word):
     """Function for end game, win or lose with text and pop up, back to menu after 3s"""
     font_title = pygame.font.SysFont("Arial", 60, bold=True)
@@ -272,7 +268,7 @@ def menu():
         
         # Score Rectangle
         score = draw_button_pic(40, 40, 300, 100, background_score, window) 
-        draw_text(f"Your Score :", 28, WHITE, score.center, window)
+        draw_text(f"Your Score : ", 28, WHITE, score.center, window)
 
         clock.tick(60)
         pygame.display.update()
