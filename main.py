@@ -9,10 +9,6 @@ def main():
         difficulty = menu()
         if difficulty is None:
             break
-
-        result = games(difficulty, "vicodine")
-        print("Résultat :", result)
-
     pygame.quit()
 
 if __name__ == "__main__":

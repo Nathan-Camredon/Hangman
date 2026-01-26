@@ -210,13 +210,11 @@ def menu():
                 elif word_button.collidepoint(event.pos):
                     words_list_page()
                     
-
                 # Left Arrow
                 elif left_arrow_rect.collidepoint(event.pos):
                     difficulty_index -= 1
                     if difficulty_index < 0:
-                        difficulty_index = len(difficulties)
-
+                        difficulty_index = len(difficulties) - 1
 
                 # Right Arrow
                 elif right_arrow_rect.collidepoint(event.pos):
