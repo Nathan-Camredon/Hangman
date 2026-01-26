@@ -64,7 +64,6 @@ harness
 symbol
 original
 propose
-grow old
 medicine
 crown
 resign
