@@ -1,17 +1,17 @@
-# Fichier games.py
+# Fichier game.py
 
 #----------Import----------
 import pygame
-from modules.games_pages import display_game
-from modules.game_logic import letter, games_difficulty, win
+from modules.game_pages import display_game
+from modules.game_logic import letter, game_difficulty, win
 from modules.graphic_ui import end_game_screen
 import time
 
-def games(difficulty, word):
+def game(difficulty, word):
     """
     Start the game with Pygame loop
     """
-    life = games_difficulty(difficulty)
+    life = game_difficulty(difficulty)
     guessed_letters = []
     guess = ["_"] * len(word)
     
