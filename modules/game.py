@@ -30,9 +30,7 @@ def game(difficulty, word, username):
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    running = False
-                    pygame.quit()
-                    return
+                    return "MENU"
 
                 # Handle letter input
                 if event.unicode.isalpha() and len(event.unicode) == 1:

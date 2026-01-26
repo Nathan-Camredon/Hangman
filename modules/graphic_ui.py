@@ -149,22 +149,16 @@ def end_game_screen(result, word):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return "QUIT"
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return "MENU"
 
-        
+        # Blit Pop UP
         screen.blit(background_main, (0, 0)) 
-
-
         screen.blit(popup_img, popup_rect)
-
-
-        screen.blit(
-            title_surface,
-            title_surface.get_rect(center=(popup_rect.centerx, popup_rect.centery - 40))
-        )
-        screen.blit(
-            word_surface,
-            word_surface.get_rect(center=(popup_rect.centerx, popup_rect.centery + 30))
-        )
+        screen.blit(title_surface, title_surface.get_rect(center=(popup_rect.centerx, popup_rect.centery - 40)))
+        screen.blit(word_surface, word_surface.get_rect(center=(popup_rect.centerx, popup_rect.centery + 30)))
 
         pygame.display.flip()
 
@@ -219,7 +213,6 @@ def menu(username):
                     if difficulty_index >= len(difficulties):
                         difficulty_index = 0
                         
-
 
                 # Exit
                 elif exit_button.collidepoint(event.pos):
