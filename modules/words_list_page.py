@@ -1,78 +1,107 @@
-# Fichier wods_list_page.py
+# Fichier words_list_page.py
 import pygame
 
-from modules.delete_word_page import draw_delete_word_page, delete_word_page_loop
-from modules.add_word_page import draw_add_word_page, add_word_page_loop
+from modules.delete_word_page import delete_word_page_loop
+from modules.add_word_page import add_word_page_loop
 from modules.file_manager import save_words, load_words
 
+pygame.init()
 clock = pygame.time.Clock()
-#window size function
-def window_size(size_x, size_y, name):
-    window = pygame.display.set_mode((size_x, size_y))
-    pygame.display.set_caption(name)
-    return window
 
-# Window Size
 info = pygame.display.Info()
-screen = pygame.display.set_mode((info.current_w, info.current_h), pygame.NOFRAME)
-WIDHT, HEIGHT = screen.get_size()
+WIDTH, HEIGHT = info.current_w, info.current_h
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.NOFRAME)
 
-center_x = WIDHT // 2
+center_x = WIDTH // 2
 center_y = HEIGHT // 2
 
-# Constant
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (180, 50, 50)
 BLUE = (50, 100, 200)
 
-# Scroll
+font = pygame.font.SysFont("arial", 28)
+
 words = load_words()
+selected_word = None
+
+COLS = 4
+ROWS = 19
 scroll_offset = 0
-max_scroll = max(0, len(words) * 30 - 400)
+
+def compute_max_scroll():
+    global words
+    total_rows = (len(words) + COLS - 1) // COLS
+    return max(0, total_rows - ROWS)
+
+max_scroll = compute_max_scroll()
 
 BUTTON_WIDTH = 300
 BUTTON_HEIGHT = 70
 
-back_button = pygame.Rect(center_x + 500, center_y - 500, BUTTON_WIDTH, BUTTON_HEIGHT)
-add_button = pygame.Rect(center_x + 500, center_y - 400, BUTTON_WIDTH, BUTTON_HEIGHT)
-delete_button = pygame.Rect(center_x + 500, center_y - 300, BUTTON_WIDTH, BUTTON_HEIGHT)
+back_button = pygame.Rect(center_x + 600, center_y - 300, BUTTON_WIDTH, BUTTON_HEIGHT)
+add_button = pygame.Rect(center_x + 600, center_y - 200, BUTTON_WIDTH, BUTTON_HEIGHT)
+delete_button = pygame.Rect(center_x + 600, center_y - 100, BUTTON_WIDTH, BUTTON_HEIGHT)
 
-# Background
 background_word = pygame.image.load("modules/graphic/assets/background_word.png").convert()
-background_word = pygame.transform.scale(background_word,(WIDHT, HEIGHT))
+background_word = pygame.transform.scale(background_word, (WIDTH, HEIGHT))
 
-
-font = pygame.font.SysFont("arial", 28)
-words = load_words()
-selected_word = None
-
-def split_columns(items, col_size=20):
-    return [items[i:i + col_size] for i in range(0, len(items), col_size)]
+def draw_text(text, size, color, center, window):
+    f = pygame.font.SysFont(None, size)
+    text_surface = f.render(text, True, color)
+    text_rect = text_surface.get_rect(center=center)
+    window.blit(text_surface, text_rect)
 
 def draw_words(screen, words, selected_word, scroll_offset, font):
-    columns = split_columns(words, col_size=20)
-    x_start = 50
-    y_start = 80 - scroll_offset
+    x_start = 350
+    y_start = 260
     col_spacing = 250
     line_spacing = 30
 
-    for col_index, col in enumerate(columns):
-        x = x_start + col_index * col_spacing
-        y = y_start
+    first_row = scroll_offset
+    first_index = first_row * COLS
 
-        for word in col:
+    for row in range(ROWS):
+        for col in range(COLS):
+            index = first_index + row * COLS + col
+            if index >= len(words):
+                return
+
+            word = words[index]
             color = (255, 255, 0) if word == selected_word else (255, 255, 255)
             text = font.render(word, True, color)
-            screen.blit(text, (x, y))
-            y += line_spacing
 
-# Text draw
-def draw_text(text, size, color, center, window):
-    font = pygame.font.SysFont(None, size)
-    text_surface = font.render(text, True, color)
-    text_rect = text_surface.get_rect(center=center)
-    window.blit(text_surface, text_rect)
+            x = x_start + col * col_spacing
+            y = y_start + row * line_spacing
+
+            screen.blit(text, (x, y))
+
+def select_word(pos, words, scroll_offset):
+    global selected_word
+
+    x, y = pos
+
+    x_start = 350
+    y_start = 260
+    col_spacing = 250
+    line_spacing = 30
+
+    col = (x - x_start) // col_spacing
+    row = (y - y_start) // line_spacing
+
+    if col < 0 or col >= COLS or row < 0 or row >= ROWS:
+        return None
+
+    first_row = scroll_offset
+    first_index = first_row * COLS
+
+    index = first_index + row * COLS + col
+
+    if 0 <= index < len(words):
+        selected_word = words[index]
+        return selected_word
+
+    return None
 
 def draw_buttons():
     background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
@@ -83,7 +112,7 @@ def draw_buttons():
 
     mouse_pos = pygame.mouse.get_pos()
 
-    # Retour
+    # Back
     return_image = background_button_hover if back_button.collidepoint(mouse_pos) else background_button
     screen.blit(return_image, back_button)
     draw_text("Retour", 36, BLUE, back_button.center, screen)
@@ -98,63 +127,18 @@ def draw_buttons():
     screen.blit(delete_image, delete_button)
     draw_text("Delete", 36, BLUE, delete_button.center, screen)
 
-def draw():
-    screen.fill((30, 30, 30))
-    draw_words()
-    draw_buttons()
-
-def handle_event(event):
-    if event.type == pygame.MOUSEBUTTONDOWN:
-        # Scroll
-        if event.button == 4:
-            scroll_offset = max(0, scroll_offset - 20)
-        elif event.button == 5:
-            scroll_offset = min(max_scroll, scroll_offset + 20)
-
-        # Boutons
-        if back_button.collidepoint(event.pos):
-            pass
-            #on_back()
-
-        elif add_button.collidepoint(event.pos):
-            draw_add_word_page(screen)
-
-        elif delete_button.collidepoint(event.pos):
-            if selected_word:
-                draw_delete_word_page(screen, selected_word)
-
-        # Sélection d’un mot
-        select_word(event.pos, words, scroll_offset)
-
-def select_word(pos, words, scroll_offset):
-    global selected_word
-    x, y = pos
-    y += scroll_offset
-
-    col_width = 250
-    line_height = 30
-    col_index = (x - 50) // col_width
-
-    if col_index < 0:
-        return
-
-    word_index = (y - 80) // line_height
-    global_index = col_index * 20 + word_index
-
-    if 0 <= global_index < len(words):
-        selected_word = words[global_index]
-        return selected_word
-    
 def words_list_page():
-    global scroll_offset, selected_word
+    global scroll_offset, selected_word, words, max_scroll
 
     running = True
     result = None
+    max_scroll = compute_max_scroll()
+
     while running:
         screen.blit(background_word, (0, 0))
 
         draw_words(screen, words, selected_word, scroll_offset, font)
-        draw_buttons()   # utilise screen, donc OK
+        draw_buttons()
 
         pygame.display.update()
 
@@ -163,47 +147,37 @@ def words_list_page():
                 running = False
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                # Scroll
                 if event.button == 4:
-                    scroll_offset = max(0, scroll_offset - 20)
+                    scroll_offset = max(0, scroll_offset - 1)
                 elif event.button == 5:
-                    scroll_offset = min(max_scroll, scroll_offset + 20)
+                    scroll_offset = min(max_scroll, scroll_offset + 1)
 
+                # Button back
                 if back_button.collidepoint(event.pos):
                     return "menu"
+
+                # Button add
                 elif add_button.collidepoint(event.pos):
                     result = add_word_page_loop(screen)
-
-                    if result == "back":
-                        result = None  # on revient simplement
-
-                    elif isinstance(result, tuple) and result[0] == "confirm":
+                    if isinstance(result, tuple) and result[0] == "confirm":
                         new_word = result[1]
                         words.append(new_word)
                         save_words(words)
-                        max_scroll = max(0, len(words) * 30 - 400)
+                        max_scroll = compute_max_scroll()
                         result = None
 
-                if result == "back":
-                    break
-                
-                elif isinstance(result, tuple) and result[0] == "confirm":
-                    new_word = result[1]
-                    words.append(new_word)
-                    save_words(words)
-                    max_scroll = max(0, len(words) * 30 - 400)
-
-
+                # Button delete
                 elif delete_button.collidepoint(event.pos):
                     if selected_word:
                         result = delete_word_page_loop(screen, selected_word)
-
-                    if result == "confirm":
-                        words.remove(selected_word)
-                        save_words(words)
-                        selected_word = None
-                        max_scroll = max(0, len(words) * 30 - 400)
-
+                        if result == "confirm":
+                            words.remove(selected_word)
+                            save_words(words)
+                            selected_word = None
+                            max_scroll = compute_max_scroll()
+                            result = None
+                            
                 selected_word = select_word(event.pos, words, scroll_offset)
 
         clock.tick(60)
-        
