@@ -100,12 +100,12 @@ def display_game(guess, life, guessed_letters, difficulty):
 
     # --- Draw Guessed Letters ---
     guessed_str = " ".join(guessed_letters)
-    guessed_text = small_font.render(f"Letters: {guessed_str}", True, BLACK)
-    window.blit(guessed_text, (20, 20))
+    guessed_text = font.render(f"Letters: {guessed_str}", True, BLACK)
+    window.blit(guessed_text, (center_x - 500, center_y + 300))
     
     # --- Draw Lives ---
-    life_text = small_font.render(f"Lives: {life}", True, RED)
-    window.blit(life_text, (WIDHT - 150, 20))
+    life_text = font.render(f"Lives: {life}", True, RED)
+    window.blit(life_text, (center_x - 550, center_y + 50))
 
     # Render the guessed word
     for index, letter in enumerate(guess):
