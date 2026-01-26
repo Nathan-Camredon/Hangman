@@ -1,3 +1,5 @@
 keyboard
 pygame
-colored 
+colored
+os
+sys
