@@ -56,7 +56,7 @@ def ask_username():
         screen.fill((30, 30, 30))
         
         # Render instruction text
-        instruction_surface = font.render("Entrez votre pseudo :", True, (255, 255, 255))
+        instruction_surface = font.render("Enter your name :", True, (255, 255, 255))
         screen.blit(instruction_surface, (W//2 - instruction_surface.get_width()//2, H//2 - 100))
 
         # Render the current text.
@@ -103,18 +103,3 @@ def save_score(username, difficulty):
     # Save scores
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(scores, f, indent=4, ensure_ascii=False)
-
-def get_score(username):
-    """
-    Retrieves the score for a given username from data/score.json.
-    Returns 0 if username not found or error.
-    """
-    file_path = os.path.join("data", "score.json")
-    if os.path.exists(file_path):
-        try:
-            with open(file_path, "r", encoding="utf-8") as f:
-                scores = json.load(f)
-                return scores.get(username, 0)
-        except json.JSONDecodeError:
-            return 0
-    return 0
