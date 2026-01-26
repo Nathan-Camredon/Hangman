@@ -53,10 +53,10 @@ YELLOW = (255, 255, 0, 255)
 
 # Difficulty
 difficulties = [
-    "Facile",
-    "Normal",
-    "Difficile",
-    "G0d lik3"]
+    "EASY",
+    "MEDIUM",
+    "HARD",
+    "G0D LIK3"]
 
 
 difficulty_color = [
@@ -144,7 +144,7 @@ def end_game_screen(result, word):
         color = RED
 
     title_surface = font_title.render(title_text, True, color)
-    word_surface = font_word.render(f"Le mot était : {word}", True, WHITE)
+    word_surface = font_word.render(f"The word as  : {word}", True, WHITE)
 
     start_time = pygame.time.get_ticks()
 
@@ -240,7 +240,7 @@ def menu():
         mouse_pos = pygame.mouse.get_pos()
         play_image = (background_button_hover if play_button.collidepoint(mouse_pos)else background_button)
         window.blit(play_image, play_button)
-        draw_text("JOUER", 36, WHITE, play_button.center, window) 
+        draw_text("PLAY", 36, WHITE, play_button.center, window) 
         
         # Difficulty rect
         difficulty_button = pygame.Rect((center_x - 200), (center_y + 110), BUTTON_WIDTH, BUTTON_HEIGHT)
@@ -256,7 +256,7 @@ def menu():
         mouse_pos = pygame.mouse.get_pos()
         word_img = (background_button_hover if word_button.collidepoint(mouse_pos) else background_button)
         window.blit(word_img, word_button)
-        draw_text("MOTS", 36, WHITE, word_button.center, window)
+        draw_text("WORDS", 36, WHITE, word_button.center, window)
 
         # Arrow blit
         window.blit(arrow_left_png, left_arrow_rect)
@@ -267,12 +267,12 @@ def menu():
         mouse_pos = pygame.mouse.get_pos()
         exit_img = (background_button_hover if exit_button.collidepoint(mouse_pos) else background_button_exit)
         window.blit(exit_img, exit_button)
-        draw_text("QUITTER", 36, RED, exit_button.center, window)
+        draw_text("QUIT", 36, RED, exit_button.center, window)
 
         
         # Score Rectangle
         score = draw_button_pic(40, 40, 300, 100, background_score, window) 
-        draw_text("VOTRE SCORE : 0", 28, WHITE, score.center, window)
+        draw_text(f"Your Score :", 28, WHITE, score.center, window)
 
         clock.tick(60)
         pygame.display.update()
