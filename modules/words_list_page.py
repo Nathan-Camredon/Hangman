@@ -1,11 +1,11 @@
 # Fichier wods_list_page.py
 import pygame
-from modules.words_list import load_words
-from modules.delete_word_page import draw_delete_word_page, handle_delete_word_event
-from modules.add_word_page import draw_add_word_page, handle_add_word_event
+
+from modules.delete_word_page import draw_delete_word_page, delete_word_page_loop
+from modules.add_word_page import draw_add_word_page, add_word_page_loop
+from modules.file_manager import save_words, load_words
 
 clock = pygame.time.Clock()
-
 #window size function
 def window_size(size_x, size_y, name):
     window = pygame.display.set_mode((size_x, size_y))
@@ -31,14 +31,16 @@ words = load_words()
 scroll_offset = 0
 max_scroll = max(0, len(words) * 30 - 400)
 
-# Boutons
-back_button = pygame.Rect(750, 20, 120, 40)
-add_button = pygame.Rect(50, 500, 150, 50)
-delete_button = pygame.Rect(250, 500, 150, 50)
+BUTTON_WIDTH = 300
+BUTTON_HEIGHT = 70
+
+back_button = pygame.Rect(center_x + 500, center_y - 500, BUTTON_WIDTH, BUTTON_HEIGHT)
+add_button = pygame.Rect(center_x + 500, center_y - 400, BUTTON_WIDTH, BUTTON_HEIGHT)
+delete_button = pygame.Rect(center_x + 500, center_y - 300, BUTTON_WIDTH, BUTTON_HEIGHT)
 
 # Background
-background_words = pygame.image.load("modules/graphic/assets/background_words.png").convert()
-background_words = pygame.transform.scale(background_words,(WIDHT, HEIGHT))
+background_word = pygame.image.load("modules/graphic/assets/background_word.png").convert()
+background_word = pygame.transform.scale(background_word,(WIDHT, HEIGHT))
 
 
 font = pygame.font.SysFont("arial", 28)
@@ -73,38 +75,28 @@ def draw_text(text, size, color, center, window):
     window.blit(text_surface, text_rect)
 
 def draw_buttons():
-    # --- BUTTON IMAGES ---
     background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
     background_button_hover = pygame.image.load("modules/graphic/assets/background_button_hover.png").convert_alpha()
 
-    # Button size
-    BUTTON_WIDTH = 300
-    BUTTON_HEIGHT = 70
-
-    #background button and hover
     background_button = pygame.transform.scale(background_button, (BUTTON_WIDTH, BUTTON_HEIGHT))
-    background_button_hover = pygame.transform.scale(background_button_hover, (BUTTON_WIDTH,BUTTON_HEIGHT))
+    background_button_hover = pygame.transform.scale(background_button_hover, (BUTTON_WIDTH, BUTTON_HEIGHT))
 
-    # Return Button
-    return_button = pygame.Rect((center_x + 500), (center_y -500),BUTTON_WIDTH, BUTTON_HEIGHT)
     mouse_pos = pygame.mouse.get_pos()
-    return_image = (background_button_hover if return_button.collidepoint(mouse_pos)else background_button)
-    screen.blit(return_image, return_button)
-    draw_text("Retour", 36, BLUE, return_button.center, screen)
 
-    #Add Button
-    add_button = pygame.Rect((center_x + 500), (center_y -400),BUTTON_WIDTH, BUTTON_HEIGHT)
-    mouse_pos = pygame.mouse.get_pos()
-    return_image = (background_button_hover if add_button.collidepoint(mouse_pos)else background_button)
-    screen.blit(return_image, add_button)
+    # Retour
+    return_image = background_button_hover if back_button.collidepoint(mouse_pos) else background_button
+    screen.blit(return_image, back_button)
+    draw_text("Retour", 36, BLUE, back_button.center, screen)
+
+    # Add
+    add_image = background_button_hover if add_button.collidepoint(mouse_pos) else background_button
+    screen.blit(add_image, add_button)
     draw_text("Add", 36, BLUE, add_button.center, screen)
-    
-    #Delete Button    
-    delete_button_button = pygame.Rect((center_x + 500), (center_y -300),BUTTON_WIDTH, BUTTON_HEIGHT)
-    mouse_pos = pygame.mouse.get_pos()
-    return_image = (background_button_hover if delete_button_button.collidepoint(mouse_pos)else background_button)
-    screen.blit(return_image, delete_button_button)
-    draw_text("Delete", 36, BLUE, delete_button_button.center, screen)
+
+    # Delete
+    delete_image = background_button_hover if delete_button.collidepoint(mouse_pos) else background_button
+    screen.blit(delete_image, delete_button)
+    draw_text("Delete", 36, BLUE, delete_button.center, screen)
 
 def draw():
     screen.fill((30, 30, 30))
@@ -135,6 +127,7 @@ def handle_event(event):
         select_word(event.pos, words, scroll_offset)
 
 def select_word(pos, words, scroll_offset):
+    global selected_word
     x, y = pos
     y += scroll_offset
 
@@ -156,9 +149,9 @@ def words_list_page():
     global scroll_offset, selected_word
 
     running = True
-
+    result = None
     while running:
-        screen.blit(background_words, (0, 0))
+        screen.blit(background_word, (0, 0))
 
         draw_words(screen, words, selected_word, scroll_offset, font)
         draw_buttons()   # utilise screen, donc OK
@@ -178,11 +171,39 @@ def words_list_page():
                 if back_button.collidepoint(event.pos):
                     return "menu"
                 elif add_button.collidepoint(event.pos):
-                    pass
+                    result = add_word_page_loop(screen)
+
+                    if result == "back":
+                        result = None  # on revient simplement
+
+                    elif isinstance(result, tuple) and result[0] == "confirm":
+                        new_word = result[1]
+                        words.append(new_word)
+                        save_words(words)
+                        max_scroll = max(0, len(words) * 30 - 400)
+                        result = None
+
+                if result == "back":
+                    break
+                
+                elif isinstance(result, tuple) and result[0] == "confirm":
+                    new_word = result[1]
+                    words.append(new_word)
+                    save_words(words)
+                    max_scroll = max(0, len(words) * 30 - 400)
+
 
                 elif delete_button.collidepoint(event.pos):
-                    pass
+                    if selected_word:
+                        result = delete_word_page_loop(screen, selected_word)
 
-                select_word(event.pos, scroll_offset)
+                    if result == "confirm":
+                        words.remove(selected_word)
+                        save_words(words)
+                        selected_word = None
+                        max_scroll = max(0, len(words) * 30 - 400)
+
+                selected_word = select_word(event.pos, words, scroll_offset)
 
         clock.tick(60)
+        

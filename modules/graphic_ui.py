@@ -1,12 +1,8 @@
-# Fichier graphic_ui.py
-
-
-
+# Files graphic_ui.py
 
 
 import pygame
 import time
-import sys
 from modules.words_list_page import words_list_page
 from modules.words_list import words_selector
 from modules.score import get_score
@@ -27,9 +23,9 @@ clock = pygame.time.Clock()
 
 # Window Size
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-WIDHT, HEIGHT = screen.get_size()
+WIDTH, HEIGHT = screen.get_size()
 #Center Window
-center_x = WIDHT // 2
+center_x = WIDTH // 2
 center_y = HEIGHT // 2
 
 
@@ -70,11 +66,11 @@ difficulty_color = [
 
 # Background
 background_main = pygame.image.load("modules/graphic/assets/background_main.png").convert()
-background_main = pygame.transform.scale(background_main,(WIDHT, HEIGHT))
+background_main = pygame.transform.scale(background_main,(WIDTH, HEIGHT))
 background_score = pygame.image.load("modules/graphic/assets/background_score.png").convert_alpha()
 background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
 popup_img = pygame.image.load("modules/graphic/assets/background_score.png").convert_alpha()
-popup_rect = popup_img.get_rect(center=(WIDHT // 2, HEIGHT // 2))
+popup_rect = popup_img.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
 
 # --- BUTTON IMAGES ---
@@ -108,8 +104,7 @@ arrow_right_png = pygame.transform.scale(arrow_right_png, (60, 60))
 #--------------------
 
 
-# Function Buttons Rect
-
+# Function Buttons Rectangle
 def draw_button_pic(x, y, width, height, image, window):
     """Draw Button size, position and screen"""
     rect = pygame.Rect(x, y, width, height)
@@ -117,7 +112,7 @@ def draw_button_pic(x, y, width, height, image, window):
     window.blit(image, rect)
     return rect
 
-# Text draw
+# Function Text draw
 def draw_text(text, size, color, center, window):
     """Draw text with color size and screen"""
     font = pygame.font.SysFont(None, size)
@@ -132,20 +127,21 @@ def window_size(size_x, size_y, name):
     pygame.display.set_caption(name)
     return window
 
+# Function end game
 def end_game_screen(result, word):
     """Function for end game, win or lose with text and pop up, back to menu after 3s"""
     font_title = pygame.font.SysFont("Arial", 60, bold=True)
     font_word = pygame.font.SysFont("Arial", 40)
 
     if result == "WIN":
-        title_text = "Gagné"
+        title_text = "Win !"
         color = GREEN
     else:
-        title_text = "Perdu"
+        title_text = "Ho no... Lose"
         color = RED
 
     title_surface = font_title.render(title_text, True, color)
-    word_surface = font_word.render(f"The word as  : {word}", True, WHITE)
+    word_surface = font_word.render(f"The word was : {word}", True, WHITE)
 
     start_time = pygame.time.get_ticks()
 
@@ -153,22 +149,16 @@ def end_game_screen(result, word):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return "QUIT"
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return "MENU"
 
-        
+        # Blit Pop UP
         screen.blit(background_main, (0, 0)) 
-
-
         screen.blit(popup_img, popup_rect)
-
-
-        screen.blit(
-            title_surface,
-            title_surface.get_rect(center=(popup_rect.centerx, popup_rect.centery - 40))
-        )
-        screen.blit(
-            word_surface,
-            word_surface.get_rect(center=(popup_rect.centerx, popup_rect.centery + 30))
-        )
+        screen.blit(title_surface, title_surface.get_rect(center=(popup_rect.centerx, popup_rect.centery - 40)))
+        screen.blit(word_surface, word_surface.get_rect(center=(popup_rect.centerx, popup_rect.centery + 30)))
 
         pygame.display.flip()
 
@@ -223,7 +213,6 @@ def menu(username):
                     if difficulty_index >= len(difficulties):
                         difficulty_index = 0
                         
-
 
                 # Exit
                 elif exit_button.collidepoint(event.pos):
