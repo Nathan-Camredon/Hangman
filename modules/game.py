@@ -4,10 +4,11 @@
 import pygame
 from modules.game_pages import display_game
 from modules.game_logic import letter, game_difficulty, win
+from modules.score import save_score
 from modules.graphic_ui import end_game_screen
 import time
 
-<<<<<<< HEAD
+
 def game(difficulty, word, username):
     """
     Start the game with Pygame loop
@@ -38,10 +39,11 @@ def game(difficulty, word, username):
                     letter_input = event.unicode.lower()
                     guess, life, guessed_letters = letter(letter_input, guess, word, life, guessed_letters, difficulty)
                     
-<<<<<<< HEAD
+
                     # Check if the game is over (Win or Lose)
                     result = win(guess, word, life, username, difficulty)
                     if result is True:
+                        save_score(username, difficulty)
                         display_game(guess, life, guessed_letters, difficulty)
                         pygame.display.flip()
                         end_game_screen("WIN", word)

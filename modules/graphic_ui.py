@@ -9,6 +9,7 @@ import time
 import sys
 from modules.words_list_page import words_list_page
 from modules.words_list import words_selector
+from modules.score import get_score
 
 
 
@@ -271,8 +272,9 @@ def menu(username):
 
         
         # Score Rectangle
+        current_score = get_score(username)
         score = draw_button_pic(40, 40, 300, 100, background_score, window) 
-        draw_text(f"Your Score :", 28, WHITE, score.center, window)
+        draw_text(f"Your Score : {current_score}", 28, WHITE, score.center, window)
 
         clock.tick(60)
         pygame.display.update()

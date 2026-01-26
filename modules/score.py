@@ -103,3 +103,18 @@ def save_score(username, difficulty):
     # Save scores
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(scores, f, indent=4, ensure_ascii=False)
+
+def get_score(username):
+    """
+    Retrieves the score for a given username from data/score.json.
+    Returns 0 if username not found or error.
+    """
+    file_path = os.path.join("data", "score.json")
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                scores = json.load(f)
+                return scores.get(username, 0)
+        except json.JSONDecodeError:
+            return 0
+    return 0
