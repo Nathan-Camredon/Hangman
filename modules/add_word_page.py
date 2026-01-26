@@ -9,7 +9,9 @@ WIDTH, HEIGHT = info.current_w, info.current_h
 center_x = WIDTH // 2
 center_y = HEIGHT // 2
 
-WHITE = (255, 255, 255)
+background_word = pygame.image.load("modules/graphic/assets/background_word.png").convert()
+background_word = pygame.transform.scale(background_word,(WIDTH, HEIGHT))
+WHITE = (255,255,255)
 BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
 RED = (180, 50, 50)
@@ -26,7 +28,7 @@ confirm_button = pygame.Rect(center_x - 150, center_y + 100, 300, 60)
 
 
 def draw_add_word_page(screen):
-    screen.fill(WHITE)
+    screen.blit(background_word, (0, 0))
 
     # Titre
     title = FONT.render("Ajouter un mot", True, BLACK)
@@ -74,3 +76,18 @@ def handle_add_word_event(event):
                 return ("confirm", typed_word.strip())
 
     return None
+
+def add_word_page_loop(screen):
+    running = True
+    while running:
+        draw_add_word_page(screen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return "back"
+
+            result = handle_add_word_event(event)
+            if result is not None:
+                return result
+
+        clock.tick(60)

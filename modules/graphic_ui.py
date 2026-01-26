@@ -26,9 +26,9 @@ clock = pygame.time.Clock()
 
 # Window Size
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-WIDHT, HEIGHT = screen.get_size()
+WIDTH, HEIGHT = screen.get_size()
 #Center Window
-center_x = WIDHT // 2
+center_x = WIDTH // 2
 center_y = HEIGHT // 2
 
 
@@ -69,11 +69,11 @@ difficulty_color = [
 
 # Background
 background_main = pygame.image.load("modules/graphic/assets/background_main.png").convert()
-background_main = pygame.transform.scale(background_main,(WIDHT, HEIGHT))
+background_main = pygame.transform.scale(background_main,(WIDTH, HEIGHT))
 background_score = pygame.image.load("modules/graphic/assets/background_score.png").convert_alpha()
 background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
 popup_img = pygame.image.load("modules/graphic/assets/background_score.png").convert_alpha()
-popup_rect = popup_img.get_rect(center=(WIDHT // 2, HEIGHT // 2))
+popup_rect = popup_img.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
 
 # --- BUTTON IMAGES ---
