@@ -1,4 +1,3 @@
-# Fichier words_list_page.py
 import pygame
 
 from modules.delete_word_page import delete_word_page_loop

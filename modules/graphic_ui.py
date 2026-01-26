@@ -4,8 +4,8 @@
 import pygame
 import time
 from modules.words_list_page import words_list_page
-from modules.words_list import words_selector
 from modules.score import get_score
+from modules.file_manager import words_selector
 
 
 

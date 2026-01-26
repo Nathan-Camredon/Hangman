@@ -1,26 +1,33 @@
 import pygame
-pygame.init()
-clock = pygame.time.Clock()
 
+pygame.init()
+
+clock = pygame.time.Clock()
 info = pygame.display.Info()
+
+# Screen width and height
 WIDTH, HEIGHT = info.current_w, info.current_h
 center_x = WIDTH // 2
 center_y = HEIGHT // 2
-mouse_pos = pygame.mouse.get_pos()
+
+# Background image
 background_word = pygame.image.load("modules/graphic/assets/background_word.png").convert()
 background_word = pygame.transform.scale(background_word,(WIDTH, HEIGHT))
+
+# Constant color
 WHITE = (255,255,255)
 BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
 RED = (180, 50, 50)
 BLUE = (50, 100, 200)
 
+# Font constant
 FONT = pygame.font.SysFont("Arial", 32)
 SMALL_FONT = pygame.font.SysFont("Arial", 24)
 
-
 typed_word = ""
 
+# Button constant 
 BUTTON_WIDTH = 300
 BUTTON_HEIGHT = 70
 back_button = pygame.Rect(40, 40, 300, 70)
@@ -30,6 +37,7 @@ background_button_hover = pygame.image.load("modules/graphic/assets/background_b
 
 background_button = pygame.transform.scale(background_button, (BUTTON_WIDTH, BUTTON_HEIGHT))
 background_button_hover = pygame.transform.scale(background_button_hover, (BUTTON_WIDTH, BUTTON_HEIGHT))
+
 
 def draw_text(text, size, color, center, window):
     f = pygame.font.SysFont(None, size)
@@ -41,9 +49,11 @@ def draw_add_word_page(screen):
     screen.blit(background_word, (0, 0))
     mouse_pos = pygame.mouse.get_pos()
 
+    # Title
     title = FONT.render("Add a word ?", True, BLACK)
     screen.blit(title, (center_x - title.get_width() // 2, 400))
 
+    # Input field
     pygame.draw.rect(screen, GRAY, (center_x - 200, center_y - 40, 400, 60))
     text = FONT.render(typed_word, True, BLACK)
     screen.blit(text, (center_x - 190, center_y - 30))
