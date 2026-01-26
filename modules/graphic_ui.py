@@ -133,14 +133,14 @@ def end_game_screen(result, word):
     font_word = pygame.font.SysFont("Arial", 40)
 
     if result == "WIN":
-        title_text = "Gagné"
+        title_text = "Win !"
         color = GREEN
     else:
-        title_text = "Perdu"
+        title_text = "Ho no... Lose"
         color = RED
 
     title_surface = font_title.render(title_text, True, color)
-    word_surface = font_word.render(f"The word as  : {word}", True, WHITE)
+    word_surface = font_word.render(f"The word was : {word}", True, WHITE)
 
     start_time = pygame.time.get_ticks()
 

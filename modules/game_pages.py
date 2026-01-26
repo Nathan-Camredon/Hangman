@@ -102,7 +102,7 @@ def display_game(guess, life, guessed_letters, difficulty):
 
     # --- Draw Guessed Letters ---
     guessed_str = " ".join(guessed_letters)
-    guessed_text = font.render(f"Letters: {guessed_str}", True, BLACK)
+    guessed_text = font.render(f"LETTERS: {guessed_str}", True, BLACK)
     window.blit(guessed_text, (center_x - 500, center_y + 300))
     
     # --- Draw Lives ---

@@ -1,5 +1,4 @@
-# Fichier main.py
-from modules.game import game
+# Files main.py
 from modules.graphic_ui import menu
 import pygame
 
