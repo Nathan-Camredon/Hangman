@@ -8,7 +8,6 @@ from modules.file_manager import save_words, load_words
 pygame.init()
 clock = pygame.time.Clock()
 
-# --- Fenêtre ---
 info = pygame.display.Info()
 WIDTH, HEIGHT = info.current_w, info.current_h
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.NOFRAME)
@@ -16,20 +15,16 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.NOFRAME)
 center_x = WIDTH // 2
 center_y = HEIGHT // 2
 
-# --- Couleurs ---
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (180, 50, 50)
 BLUE = (50, 100, 200)
 
-# --- Police ---
 font = pygame.font.SysFont("arial", 28)
 
-# --- Données ---
 words = load_words()
 selected_word = None
 
-# --- Scroll (4 colonnes x 19 lignes) ---
 COLS = 4
 ROWS = 19
 scroll_offset = 0
@@ -41,7 +36,6 @@ def compute_max_scroll():
 
 max_scroll = compute_max_scroll()
 
-# --- Boutons ---
 BUTTON_WIDTH = 300
 BUTTON_HEIGHT = 70
 
@@ -49,20 +43,15 @@ back_button = pygame.Rect(center_x + 600, center_y - 300, BUTTON_WIDTH, BUTTON_H
 add_button = pygame.Rect(center_x + 600, center_y - 200, BUTTON_WIDTH, BUTTON_HEIGHT)
 delete_button = pygame.Rect(center_x + 600, center_y - 100, BUTTON_WIDTH, BUTTON_HEIGHT)
 
-# --- Background ---
 background_word = pygame.image.load("modules/graphic/assets/background_word.png").convert()
 background_word = pygame.transform.scale(background_word, (WIDTH, HEIGHT))
 
-
-# ---------- Dessin texte ----------
 def draw_text(text, size, color, center, window):
     f = pygame.font.SysFont(None, size)
     text_surface = f.render(text, True, color)
     text_rect = text_surface.get_rect(center=center)
     window.blit(text_surface, text_rect)
 
-
-# ---------- Dessin des mots ----------
 def draw_words(screen, words, selected_word, scroll_offset, font):
     x_start = 350
     y_start = 260
@@ -87,8 +76,6 @@ def draw_words(screen, words, selected_word, scroll_offset, font):
 
             screen.blit(text, (x, y))
 
-
-# ---------- Sélection d'un mot ----------
 def select_word(pos, words, scroll_offset):
     global selected_word
 
@@ -116,8 +103,6 @@ def select_word(pos, words, scroll_offset):
 
     return None
 
-
-# ---------- Boutons ----------
 def draw_buttons():
     background_button = pygame.image.load("modules/graphic/assets/background_button.png").convert_alpha()
     background_button_hover = pygame.image.load("modules/graphic/assets/background_button_hover.png").convert_alpha()
@@ -127,7 +112,7 @@ def draw_buttons():
 
     mouse_pos = pygame.mouse.get_pos()
 
-    # Retour
+    # Back
     return_image = background_button_hover if back_button.collidepoint(mouse_pos) else background_button
     screen.blit(return_image, back_button)
     draw_text("Retour", 36, BLUE, back_button.center, screen)
@@ -142,15 +127,11 @@ def draw_buttons():
     screen.blit(delete_image, delete_button)
     draw_text("Delete", 36, BLUE, delete_button.center, screen)
 
-
-# ---------- Page principale ----------
 def words_list_page():
     global scroll_offset, selected_word, words, max_scroll
 
     running = True
     result = None
-
-    # recalcul au cas où la liste a changé avant d'arriver ici
     max_scroll = compute_max_scroll()
 
     while running:
@@ -167,16 +148,16 @@ def words_list_page():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # Scroll
-                if event.button == 4:  # molette haut
+                if event.button == 4:
                     scroll_offset = max(0, scroll_offset - 1)
-                elif event.button == 5:  # molette bas
+                elif event.button == 5:
                     scroll_offset = min(max_scroll, scroll_offset + 1)
 
-                # Bouton retour
+                # Button back
                 if back_button.collidepoint(event.pos):
                     return "menu"
 
-                # Bouton add
+                # Button add
                 elif add_button.collidepoint(event.pos):
                     result = add_word_page_loop(screen)
                     if isinstance(result, tuple) and result[0] == "confirm":
@@ -186,7 +167,7 @@ def words_list_page():
                         max_scroll = compute_max_scroll()
                         result = None
 
-                # Bouton delete
+                # Button delete
                 elif delete_button.collidepoint(event.pos):
                     if selected_word:
                         result = delete_word_page_loop(screen, selected_word)
@@ -196,8 +177,7 @@ def words_list_page():
                             selected_word = None
                             max_scroll = compute_max_scroll()
                             result = None
-
-                # Sélection d'un mot
+                            
                 selected_word = select_word(event.pos, words, scroll_offset)
 
         clock.tick(60)
